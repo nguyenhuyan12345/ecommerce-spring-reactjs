@@ -1,0 +1,43 @@
+.sliderImg {
+    width: 100%;
+}
+
+@media screen and (max-width: 992px) {
+    .sliderImg {
+        border-radius: 20px;
+    }
+}
+
+.btnNext,
+.bntPrew {
+    position: absolute;
+    z-index: 3;
+}
+
+.btnNext {
+    top: 50%;
+    right: 100px;
+}
+
+.bntPrew {
+    top: 50%;
+    left: 100px;
+}
+
+.next,
+.prev {
+    position: absolute;
+    top: calc(50% - 15px);
+    z-index: 3;
+    font-size: 3rem;
+    color: black;
+    background-color: transparent;
+}
+
+.next {
+    right: 20px;
+}
+
+.prev {
+    left: 20px;
+}

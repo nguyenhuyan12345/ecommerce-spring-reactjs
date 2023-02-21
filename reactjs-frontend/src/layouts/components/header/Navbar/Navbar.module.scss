@@ -1,0 +1,41 @@
+// NavBar
+.navBar {
+    display: flex;
+
+    .navBarItem {
+        height: 41px;
+        min-width: 100px;
+        flex-grow: 1;
+        list-style-type: none;
+        background-color: var(--white);
+        color: #333;
+
+        &:hover {
+            background-color: #0f3057;
+            color: #fff;
+        }
+
+        .navBarLink {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+
+            .navBarItemIcon {
+                margin-left: 5px;
+                font-size: 1rem;
+            }
+        }
+
+        .navBarItemIcon,
+        .navBarLink {
+            color: inherit;
+        }
+    }
+}

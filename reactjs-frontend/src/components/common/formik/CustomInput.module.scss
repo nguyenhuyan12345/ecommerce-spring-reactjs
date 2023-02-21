@@ -1,0 +1,26 @@
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+
+    .inputForm {
+        padding: 10px 1.6rem !important;
+        border: 1px solid #c5c5c5 !important;
+        font-size: 1.5rem !important;
+        width: 100%;
+    }
+
+    .labelInput {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        background-color: #fff;
+        padding: 1.2rem 1.6rem;
+        display: inline-block;
+        position: relative;
+    }
+
+    .labeError {
+        font-weight: 300;
+        color: red;
+    }
+}

@@ -1,0 +1,83 @@
+.asideItem {
+    .asideTitle {
+        position: relative;
+        cursor: pointer;
+        margin-bottom: 10px;
+        padding-right: 25px;
+        font-size: 1.4rem;
+        color: #333f48;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        opacity: 0.8;
+        // animation: show ease-in 0.3s;
+        max-height: 500px;
+    }
+
+    .asideContent {
+        display: block;
+        overflow: hidden;
+    }
+}
+
+.filterItem {
+    margin: 0;
+    line-height: 27px;
+    opacity: 0.8;
+
+    &:hover {
+        color: #0f3057;
+        opacity: 1;
+    }
+}
+
+.asideContentHide {
+    animation: hide ease-out 0.3s;
+    max-height: 0;
+    display: none;
+}
+
+.asideContentShow {
+    animation: show ease-in 0.3s;
+    max-height: 500px;
+}
+
+@keyframes show {
+    from {
+        max-height: 0;
+    }
+    to {
+        max-height: 500px;
+    }
+}
+
+@keyframes hide {
+    from {
+        max-height: 500px;
+    }
+    to {
+        max-height: 0;
+    }
+}
+
+.filter {
+    font-size: 1.3rem;
+    color: rgba(0, 0, 0, 0.6);
+    display: block;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    flex-flow: row;
+
+    &:hover {
+        color: #0f3057;
+        font-weight: 500;
+    }
+
+    .filterInput {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        overflow: hidden;
+    }
+}

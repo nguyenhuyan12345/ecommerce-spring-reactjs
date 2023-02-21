@@ -1,0 +1,45 @@
+.authProvide {
+    width: 51rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .providerButton {
+        width: 100%;
+        font-size: 1.4rem;
+        font-size: 600;
+        font-family: inherit;
+        line-height: 1.15;
+        margin: 0;
+        height: 5rem;
+        margin-bottom: 1.2rem;
+        position: relative;
+    }
+
+    .providerFacebook {
+        background: #0078ff;
+        color: #fff;
+        border: 1px solid #0078ff;
+    }
+
+    .providerGoogle {
+        background: #fff;
+        color: #3a3a3a;
+        border: 1px solid #c5c5c5;
+    }
+
+    .providerGithub {
+        background: #24292e;
+        color: #fff;
+        border: 1px solid #24292e;
+    }
+
+    .authIcon {
+        width: 2rem;
+        height: 2rem;
+        position: absolute;
+        top: calc(50% - 1rem);
+        left: 1.4rem;
+    }
+}

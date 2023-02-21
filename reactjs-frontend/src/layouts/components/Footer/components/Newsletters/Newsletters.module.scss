@@ -1,0 +1,65 @@
+.footerBlock {
+    color: #fff;
+}
+
+.footerBlock > h3 {
+    font-family: 'Nunito+Sans', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.footerBlock > p {
+    font-family: 'Nunito+Sans', sans-serif;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.relative {
+    display: flex;
+    height: 45px;
+    margin: 0 0 19px;
+    width: 100%;
+}
+
+.contactTags,
+.mail {
+    border-radius: 0;
+    font-size: 1.4rem;
+    flex-grow: 1;
+}
+
+.mail {
+    padding: 0px 10px;
+}
+
+.subscribe {
+    font-size: 1.4rem;
+    text-align: center;
+    min-width: 100px;
+    padding: 0 20px;
+    background-color: #008891;
+    color: #fff;
+    border: none;
+}
+
+.agree {
+    display: flex;
+    align-items: center;
+}
+
+.chbAgree {
+    width: 18px;
+    height: 18px;
+}
+
+.chbAgree ~ label {
+    font-size: 1.4rem;
+    color: #ffff;
+    line-height: 1.8rem;
+    margin-left: 5px;
+}
+
+.line {
+    margin: 40px 0;
+    border-bottom: 2px solid #2f4c6d;
+}

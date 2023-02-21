@@ -1,0 +1,134 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;1,600&display=swap');
+
+:root {
+    --primary: #0f3057;
+    --button-primary-color: #008891;
+    --white: #fff;
+    --black: #000;
+    --text-color: #333;
+
+    --default-layout-header-height: 60px;
+    --default-layout-width: 1150px;
+    --default-sidebar-width: 340px;
+    --default-sidebar-height: 1192px;
+
+    --top-bar-height: 41px;
+    --top-bar-font-size: 1.4rem;
+    --top-bar-line-height: 1.6rem;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Nunito+Sans', sans-serif !important;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    // text-rendering: optimizeSpeed;
+    color: var(--text-color);
+}
+
+* {
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+button,
+input,
+[tab] {
+    border: none;
+    outline: none;
+}
+
+a[href] {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+li {
+    list-style-type: none;
+}
+
+.margins {
+    padding: 0;
+}
+
+@media screen and (min-width: 992px) {
+    .margins {
+        padding: 0 86px;
+    }
+}
+
+.button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // -webkit-transition: all 0.3s ease;
+    // -moz-transition: all 0.3s ease;
+    // -o-transition: all 0.3s ease;
+    // -ms-transition: all 0.3s ease;
+    // transition: all 0.3s ease;
+}
+
+.buttonPrimaryColor {
+    color: #fff;
+    background-color: var(--button-primary-color);
+}
+
+.buttonMedium {
+    padding: 1.6rem;
+}
+
+.buttonSmall {
+    padding: 1.2rem 1.6rem;
+}
+
+.signUpButton,
+.signInButton {
+    font-size: 1.4rem;
+    font-weight: 400;
+    border: 1px solid #e1e1e1;
+    color: #4a4a4a;
+}
+
+.buttonBack {
+    color: #333;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.scrollY {
+    overflow-y: scroll;
+}
+
+.scrollX {
+    overflow-x: scroll;
+}
+
+.main {
+    padding: 0 86px;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 992px) {
+    .main {
+        padding: 0;
+    }
+}
+
+label {
+    color: var(--primary);
+}
+
+input {
+    border-radius: 0 !important;
+}
+
+select {
+    border-radius: 0 !important;
+}

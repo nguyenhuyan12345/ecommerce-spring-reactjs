@@ -1,0 +1,17 @@
+export { default as HomePage } from './HomePage';
+export { default as NewProductPage } from './NewProductPage';
+export { default as ProductPage } from './ProductPage';
+export { default as SellingPage } from './SellingPage';
+export { default as SalePage } from './SalePage';
+export { default as BlogPage } from './BlogPage';
+export { default as ContactPage } from './ContactPage';
+export { default as LoginPage } from './auth/LoginPage';
+export { default as RegisterPage } from './auth/RegisterPage';
+export { default as SearchPage } from './SearchPage';
+export { default as ForgotPassword } from './auth/FogotPassword';
+export { default as MyAccInfoPage } from './MyAccInfoPage';
+export { default as MySolePage } from './MySolePage';
+export { default as MyBoughtPage } from './MyBoughtPage';
+export { default as MyAddProductPage } from './MyAddProductPage';
+export { default as MyListProductsPage } from './MyListProductsPage';
+export { default as MyZocoinPage } from './MyZocoinPage';

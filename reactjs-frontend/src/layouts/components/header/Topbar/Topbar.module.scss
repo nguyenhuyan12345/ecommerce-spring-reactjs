@@ -1,0 +1,34 @@
+.topBar {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary);
+    height: var(--top-bar-height);
+    color: var(--white);
+    font-size: var(--top-bar-font-size);
+
+    .topBarItem {
+        .topBarRight {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
+        // .topBarLeft {
+        // }
+
+        .marquee,
+        .checkOrder,
+        .zocoin {
+            color: var(--white);
+            font-size: var(--top-bar-font-size);
+        }
+
+        .topBarRightIcon {
+            font-size: 1.4rem;
+            margin-right: 5px;
+        }
+
+        .zocoin {
+            margin-left: 20px;
+        }
+    }
+}

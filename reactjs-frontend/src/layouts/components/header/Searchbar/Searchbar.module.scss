@@ -1,0 +1,194 @@
+.searchBar {
+    background-color: var(--white);
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    height: var(--nav-bar-height);
+    // LOGO
+    .logo {
+        display: flex;
+        justify-content: start;
+        width: 100%;
+        height: 100%;
+
+        @media screen and (max-width: 576px) {
+            .image {
+                width: 100%;
+            }
+        }
+    }
+
+    // SEARCH
+    .search {
+        display: flex;
+        align-items: center;
+        background-color: var(--white);
+        height: 40px;
+        width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+        border: 1px solid rgba($color: #000000, $alpha: 0.5);
+
+        .searchInput {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 1.6rem;
+            font-weight: 500;
+            padding: 0 20px;
+        }
+
+        .searchBtn {
+            min-width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80%;
+            text-decoration: none;
+            border-left: 1px solid rgba($color: #000000, $alpha: 0.3);
+
+            &:hover {
+                cursor: pointer;
+                opacity: 0.8;
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+
+            .searchIcon {
+                font-size: 1.8rem;
+                color: #333;
+            }
+
+            .searchLabel {
+                font-size: 1.3rem;
+                color: #333;
+                font-weight: 600;
+                line-height: 1.6rem;
+                text-align: center;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    // HOTLINE
+    .hotline {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        .hotlineItem {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-right: 2px;
+
+            &:hover {
+                cursor: pointer;
+                opacity: 0.5;
+            }
+        }
+
+        .hotlineCard {
+            font-size: 2.5rem;
+            margin-left: 8px;
+            position: relative;
+
+            &::after {
+                content: '0';
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background-color: #008891;
+                position: absolute;
+                top: -5px;
+                right: -10px;
+                font-size: 1.6rem;
+                line-height: 2rem;
+                color: var(--bs-light);
+            }
+        }
+
+        .hotlineMenu,
+        .hotlineCard,
+        .hotlineSearch {
+            font-size: 2.6rem;
+            margin-left: 20px;
+            background-color: transparent;
+        }
+    }
+}
+
+// Acc
+.accContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: end;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover > .accName {
+        opacity: 0.8;
+    }
+
+    .accIconContainer {
+        background-color: #333;
+        color: #fff;
+        border-radius: 15px;
+        display: flex;
+        background-color: var(--primary);
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+
+        .accIcon {
+            justify-content: center;
+            align-items: center;
+            font-size: 1.4rem;
+            line-height: 24px;
+        }
+
+        .accImg {
+        }
+    }
+
+    .accName {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-left: 2px;
+        color: var(--primary);
+    }
+}
+
+// Acc Menu
+
+.accMenuContainer {
+    margin: 0;
+    padding: 4px 0;
+
+    .accMenuItem {
+        margin: 4px 0;
+
+        &:hover {
+            background-color: #fafafa;
+            color: #008891;
+        }
+
+        &:hover > .accMenuLink {
+            background-color: #fafafa;
+            color: #008891;
+        }
+
+        .accMenuLink {
+            font-size: 1.4rem;
+            font-weight: 400;
+            padding: 4px 8px;
+            color: #000000;
+        }
+    }
+}
+
+//auth
+.auth {
+    display: flex;
+}
