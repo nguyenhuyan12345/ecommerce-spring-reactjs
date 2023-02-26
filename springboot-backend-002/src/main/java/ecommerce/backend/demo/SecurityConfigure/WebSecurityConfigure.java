@@ -57,11 +57,31 @@ public class WebSecurityConfigure {
                 .csrf().disable()
                 .authorizeRequests()
                 // Cấu hình authentication anh authorization filter chain
-                .antMatchers("/api/", "/api/home", "/api/login", "/api/register", "/api/user/list", "/api/products/list", "/api/products/add", "/api/products/test").permitAll()
-                .antMatchers("/api/cart/**", "/api/test/userrole", "/api/test/adminrole").authenticated()
-                .antMatchers("/api/cart/**", "/api/test/adminrole").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/api/test/userrole").hasAnyAuthority("ROLE_USER")
-                .anyRequest().permitAll();
+                .antMatchers("/api/user/detail").authenticated()
+//                .antMatchers("/api/cart/**", "/api/test/adminrole").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/api/test/userrole").hasAnyAuthority("ROLE_USER")
+                .anyRequest().permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/api/logout")
+                .permitAll();
+
+/*        http
+                .cors()
+                .and()
+                .csrf().disable()
+                .authorizeRequests((requests) -> requests
+                        .antMatchers("/api/user/detail").authenticated()
+                        .antMatchers("/api/cart/**", "/api/test/adminrole").hasAnyAuthority("ROLE_ADMIN")
+                        .antMatchers("/api/test/userrole").hasAnyAuthority("ROLE_USER")
+                        .anyRequest().permitAll()
+                )
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .permitAll()
+                );*/
+
+
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class FileUtils {
-    public static String FOLDE_MEDIA = "D:\\workspace\\image\\2212";
+    public static String FOLDE_MEDIA = "D:\\workspace\\image\\2212\\";
 
     public static String saveFileFromMultiPartFile(MultipartFile multipartFile) throws IOException {
         if(multipartFile == null){

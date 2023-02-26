@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import ProductService from '~/services/ProductService';
+import { useDispatch } from 'react-redux';
+import { setActiveItem } from '~/redux-toolkit/slice/Sidebar2';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import classNames from 'classnames/bind';
@@ -25,10 +27,13 @@ const schema = yup.object().shape({
         .max(100, '% Giảm giá phải lớn hơn 0% và nhỏ hơn 100%'),
     description: yup.string().required('Bạn chưa nhập mô tả sản phẩm'),
     fileMainImage: yup.string().required('Bạn chưa nhập hình ảnh chính của sản phẩm'),
-    multiFileImage: yup.array().required('Bạn chưa nhập hình ảnh mô tả thêm cho sản phẩm')
+    multiFileImage: yup.array().required('Bạn chưa nhập hình ảnh mô tả thêm cho sản phẩm'),
+    brand: yup.string().required('Bạn chưa nhập thương hiệu')
 });
 
 function MyAddProductPage() {
+    const dispatch = useDispatch();
+
     // State
     const [file, setFile] = useState();
     const [multiFile, setMultiFile] = useState([]);
@@ -49,7 +54,7 @@ function MyAddProductPage() {
     }
 
     function handleSubmitForm(values) {
-        console.log(values);
+        // Post
         ProductService.upLoadProduct(values)
             .then((res) => {
                 setSaveState(res);
@@ -97,7 +102,8 @@ function MyAddProductPage() {
                 discount: '',
                 description: '',
                 fileMainImage: '',
-                multiFileImage: ''
+                multiFileImage: '',
+                brand: ''
             }}
         >
             {({ handleSubmit, handleChange, handleBlur, values, touched, isValid, errors, setFieldValue }) => (
@@ -198,34 +204,59 @@ function MyAddProductPage() {
                                 onBlur={handleBlur}
                                 isValid={touched.description && !errors.description}
                                 className="mb-2 h4"
+                                style={{ fontSize: '1.4rem' }}
                             />
                             <Form.Text className="text-danger">
                                 <span className="h5">{errors.description}</span>
                             </Form.Text>
                         </Form.Group>
                     </Row>
-                    {/* Main Image */}
+                    {/* Main Image + Brand */}
                     <Row className="mb-4">
-                        <Form.Group>
-                            <Form.Label className="h4">Ảnh chính mô tả sản phẩm</Form.Label>
-                            <Form.Control
-                                type="file"
-                                size="lg"
-                                onChange={(e) => {
-                                    handleChangeImg(e, setFieldValue);
-                                }}
-                                onBlur={handleBlur}
-                                isValid={!errors.fileMainImage}
-                                className="mb-2"
-                            />
-                        </Form.Group>
-                        <Form.Text className="text-danger">
-                            <span className="h5">{errors.fileMainImage}</span>
-                        </Form.Text>
-                    </Row>
-                    <Row className="mb-4">
-                        <Col xs={4}>
-                            <img className={cx('imageUpload')} src={file} />
+                        {/* Main image */}
+                        <Col>
+                            <Row>
+                                <Form.Group>
+                                    <Form.Label className="h4">Ảnh chính mô tả sản phẩm</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        size="lg"
+                                        onChange={(e) => {
+                                            handleChangeImg(e, setFieldValue);
+                                        }}
+                                        onBlur={handleBlur}
+                                        isValid={!errors.fileMainImage}
+                                        className="mb-2"
+                                    />
+                                </Form.Group>
+                                <Form.Text className="text-danger">
+                                    <span className="h5">{errors.fileMainImage}</span>
+                                </Form.Text>
+                            </Row>
+                            <Row className="mb-4">
+                                <Col xs={4}>
+                                    <img className={cx('imageUpload')} src={file} />
+                                </Col>
+                            </Row>
+                        </Col>
+                        {/* Brand */}
+                        <Col className="mb-4">
+                            <Form.Group>
+                                <Form.Label className="h4">Thương hiệu</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="brand"
+                                    value={values.brand}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isValid={touched.brand && !errors.brand}
+                                    size="lg"
+                                    className="mb-2"
+                                />
+                                <Form.Text className="text-danger">
+                                    <span className="h5">{errors.brand}</span>
+                                </Form.Text>
+                            </Form.Group>
                         </Col>
                     </Row>
                     {/* More Image */}

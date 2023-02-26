@@ -26,6 +26,7 @@ class ProductService {
                     }
                 })
                 .then((response) => {
+                    console.log(response);
                     return response.data;
                 });
             return responseData;
@@ -40,6 +41,34 @@ class ProductService {
             return productsResponse;
         } catch (e) {
             console.log(e); // Log exception
+        }
+    }
+
+    async getProduct(pagination) {
+        try {
+            const res = await axios.get(API_BASE_URL + `/products/list/page`, {
+                params: {
+                    page: 0,
+                    perPage: 10
+                }
+            });
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getNewProducts() {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/new-products', {
+                params: {
+                    page: 0,
+                    perPage: 12
+                }
+            });
+            return res;
+        } catch (e) {
+            console.log(e);
         }
     }
 }

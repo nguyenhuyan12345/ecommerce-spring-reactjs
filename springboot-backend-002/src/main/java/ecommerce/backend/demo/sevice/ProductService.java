@@ -9,7 +9,11 @@ import ecommerce.backend.demo.repository.ProductRepository;
 import ecommerce.backend.demo.ultils.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -31,13 +35,27 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> findAll(int page, int perPage) {
+        List<Product> listProduct = new ArrayList<>();
+        Page<?> pageAll = productRepository.findAll(PageRequest.of(page, perPage));
+        listProduct = (List<Product>) pageAll.getContent();
+        return listProduct;
+    }
+
+    public  List<Product> findNewProduct(Integer page, Integer perPage) {
+        List<Product> newProducts = new ArrayList<>();
+        Page<?> pageAll = productRepository.findAll(PageRequest.of(page,perPage, Sort.by(Sort.Direction.ASC, "createAt")));
+        newProducts = (List<Product>) pageAll.getContent();
+        return newProducts;
+    }
+
+
     public Product findByID(Long id) {
         Product product = productRepository.findById(id).get();
         return product;
     }
 
     public ProductSaveResponse save(ProductRequest productRequest) {
-        Product test = productRepository.findProductByTitle(productRequest.getTitle());
 
         if (productRepository.findProductByTitle(productRequest.getTitle()) == null) {
             Product product = new Product();

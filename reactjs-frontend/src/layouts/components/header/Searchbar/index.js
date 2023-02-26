@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faCartShopping, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Auth from './Auth';
 import Account from './Account';
+import UserService from '~/services/UserService';
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
 import { defaultAvatar } from '~/assets'; // Kiểm tra hiện thị avartar
@@ -16,19 +17,23 @@ const cx = classNames.bind(styles);
 //     img: undefined
 // };
 
-const exAcc = {
-    name: 'huyan2010',
-    img: defaultAvatar
-};
-
 function Searchbar() {
     const [login, setLogin] = useState(false);
-    const [currentAcc, setCurrentAcc] = useState(exAcc);
-    
-    useEffect(() => {
-        if (localStorage.getItem('jwt') && localStorage.getItem('accName')) {
+    const [currentAcc, setCurrentAcc] = useState();
+
+    useLayoutEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        const tokenType = localStorage.getItem('tokenType');
+
+        if ((accessToken, tokenType)) {
             setLogin(true);
-            setCurrentAcc({ name: localStorage.getItem('accName'), img: localStorage.getItem('avatar') });
+            UserService.getUserDetail(accessToken, tokenType)
+                .then((res) => {
+                    return res.data;
+                })
+                .then((data) => {
+                    setCurrentAcc(data);
+                });
         } else {
             setLogin(false);
         }

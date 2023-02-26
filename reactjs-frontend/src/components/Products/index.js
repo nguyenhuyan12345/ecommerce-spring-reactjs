@@ -103,10 +103,15 @@ function Products({ title = 'HÀNG MỚI VỀ', products = defaultProducts }) {
                                 <SwiperSlide key={index}>
                                     <ImageProducts product={product} />
                                     <div className={cx('productBox')}>
-                                        <Card.Title className={cx('productTitle')} title={product.title.toLocaleUpperCase()}>
+                                        <Card.Title
+                                            className={cx('productTitle')}
+                                            title={product.title.toLocaleUpperCase()}
+                                        >
                                             {product.title.toLocaleUpperCase()}
                                         </Card.Title>
-                                        <Card.Text className={cx('productDescription')}>{`(${product.purchased} đã bán)`}</Card.Text>
+                                        <Card.Text
+                                            className={cx('productDescription')}
+                                        >{`(${product.purchased} đã bán)`}</Card.Text>
                                         <Card.Text className={cx('productCost')}>
                                             <span>
                                                 {handleFomat(product)}

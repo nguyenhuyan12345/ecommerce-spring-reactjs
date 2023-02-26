@@ -34,7 +34,7 @@ const schema = yup.object({
 });
 
 // role
-const roles = ['Chọn quyền', 'Quản trị viên', 'Người mua hàng', 'Người bán hàng'];
+const roles = ['Chọn quyền', 'ADMIN', 'USER'];
 
 const RegisterPage = () => {
     // State

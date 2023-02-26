@@ -77,4 +77,9 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return "Đã lưu tài khoản thành công";
     }
+
+//    Get by Id
+    public User getById(Long id) {
+        return userRepository.findById(id).get();
+    }
 }

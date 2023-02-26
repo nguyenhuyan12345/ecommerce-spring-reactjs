@@ -9,8 +9,11 @@ import ecommerce.backend.demo.payload.request.ProductRequest;
 import ecommerce.backend.demo.payload.request.RegisterRequest;
 import ecommerce.backend.demo.payload.responce.LoginResponse;
 import ecommerce.backend.demo.payload.responce.MessageResponse;
+import ecommerce.backend.demo.payload.responce.UserDetailResponse;
 import ecommerce.backend.demo.sevice.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -64,51 +67,26 @@ public class UserController {
 
         // Trả về jwt cho người dùng.
         String jwt = tokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
-        System.out.println(jwt);
+//        System.out.println(jwt);
         return new LoginResponse(jwt);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestPart(value = "id", required = false) String id,
-                                          @RequestPart(value = "fullName", required = false) String fullName,
-                                          @RequestPart(value = "email", required = false) String email,
-                                          @RequestPart(value = "password", required = false) String password,
-                                          @RequestPart(value = "rePassword", required = false) String rePassword,
-                                          @RequestPart(value = "address", required = false) String address,
-                                          @RequestPart(value = "phoneNumber", required = false) String phoneNumber,
-                                          @RequestPart(value = "role", required = false) String role,
-                                          @RequestPart(value = "avatarImage", required = false) MultipartFile avatarImage) {
-//            RegisterRequest registerRequest = new RegisterRequest(Long.parseLong(id), fullName, email, password, rePassword, address, phoneNumber, role, avatarImage);
+    @GetMapping("/user/detail")
+    public UserDetailResponse getUserDetail(@RequestHeader(value = "Authorization", required = false) String authorization) {
+        String jwt = authorization.substring(7);
+        Long userId = tokenProvider.getUserIdFromJWT(jwt);
+        User user = new User();
+        if (userId != null) {
+            user = userService.getById(userId);
+        }
 
-        RegisterRequest registerRequest = new RegisterRequest();
+        UserDetailResponse userDetailResponse = new UserDetailResponse();
+        BeanUtils.copyProperties(user, userDetailResponse);
+        return  userDetailResponse;
+    }
 
-        if (id != null) {
-            registerRequest.setId(Long.parseLong(id));
-        }
-        if (fullName != null) {
-            registerRequest.setFullName(fullName);
-        }
-        if (email != null) {
-            registerRequest.setEmail(email);
-        }
-        if (password != null) {
-            registerRequest.setPassword(password);
-        }
-        if (rePassword != null) {
-            registerRequest.setRePassword(rePassword);
-        }
-        if (address != null) {
-            registerRequest.setEmail(address);
-        }
-        if (phoneNumber != null) {
-            registerRequest.setPhoneNumber(phoneNumber);
-        }
-        if (role != null) {
-            registerRequest.setRole(role);
-        }
-        if (avatarImage != null) {
-            registerRequest.setAvatarImage(avatarImage);
-        }
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> registerUser( @Valid RegisterRequest registerRequest) {
 
         RegisterRequest registerRequestEncodePassword = registerRequest;
         registerRequestEncodePassword.setPassword(encoder.encode(registerRequest.getPassword()));
