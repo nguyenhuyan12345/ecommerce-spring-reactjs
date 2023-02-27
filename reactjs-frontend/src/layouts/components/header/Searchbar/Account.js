@@ -6,6 +6,9 @@ import { API_RESOURCES_URL } from '~/constants/api';
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
 import { Link } from 'react-router-dom';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutSuccess } from '~/redux-toolkit/slice/auth/auth';
 
 const cx = classNames.bind(styles);
 
@@ -29,37 +32,39 @@ const popover = (handleClick) => (
 const Account = ({ acc }) => {
     const [show, setShow] = useState(false);
 
+    // Redux
+    const auth = useSelector((state) => state.auth);
+    // console.log('Account', auth);
+    const dispatch = useDispatch();
+
     //  Handle
     const handleClick = () => {
-        console.log('Click LogOut');
-        UserService.logOut();
-        window.location.reload();
+        // console.log('Click LogOut');
+        dispatch(logoutSuccess());
     };
-    if (acc) {
-        return (
-            <div
-                onMouseMove={() => {
-                    setShow(true);
-                }}
-                onMouseOut={() => {
-                    setShow(false);
-                }}
-            >
-                <OverlayTrigger placement="bottom" overlay={popover(handleClick)} show={show}>
-                    <div className={cx('accContainer')}>
-                        <div className={cx('accIconContainer')}>
-                            {acc.avatar ? (
-                                <img className={cx('accIcon accImg')} src={API_RESOURCES_URL + '/' + acc.avatar}></img>
-                            ) : (
-                                <span className={cx('accIcon')}>{acc.email.slice(0, 2).toUpperCase()}</span>
-                            )}
-                        </div>
-                        <span className={cx('accName')}>{acc.fullName}</span>
+    return (
+        <div
+            onMouseMove={() => {
+                setShow(true);
+            }}
+            onMouseOut={() => {
+                setShow(false);
+            }}
+        >
+            <OverlayTrigger placement="bottom" overlay={popover(handleClick)} show={show}>
+                <div className={cx('accContainer')}>
+                    <div className={cx('accIconContainer')}>
+                        {auth.avatar ? (
+                            <img className={cx('accIcon accImg')} src={API_RESOURCES_URL + '/' + auth.avatar}></img>
+                        ) : (
+                            <span className={cx('accIcon')}>{auth.fullName.slice(0, 2).toUpperCase()}</span>
+                        )}
                     </div>
-                </OverlayTrigger>
-            </div>
-        );
-    }
+                    <span className={cx('accName')}>{auth.fullName}</span>
+                </div>
+            </OverlayTrigger>
+        </div>
+    );
 };
 
 export default Account;

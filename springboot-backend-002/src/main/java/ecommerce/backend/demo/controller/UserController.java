@@ -67,8 +67,11 @@ public class UserController {
 
         // Trả về jwt cho người dùng.
         String jwt = tokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
+         authentication.getPrincipal();
+         String fullName = ((CustomUserDetail) authentication.getPrincipal()).getUser().getFullName();
+         String avatar = ((CustomUserDetail) authentication.getPrincipal()).getUser().getAvatar();
 //        System.out.println(jwt);
-        return new LoginResponse(jwt);
+        return new LoginResponse(jwt, fullName, avatar);
     }
 
     @GetMapping("/user/detail")

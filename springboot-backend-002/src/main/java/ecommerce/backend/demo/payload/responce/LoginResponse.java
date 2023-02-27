@@ -6,7 +6,12 @@ import lombok.Data;
 public class LoginResponse {
     private String accessToken;
     private String tokenType = "Bearer";
-    public LoginResponse(String accessToken) {
+    private String fullName;
+    private String avatar;
+
+    public LoginResponse(String accessToken, String fullName, String avatar) {
         this.accessToken = accessToken;
+        this.fullName = fullName;
+        this.avatar = avatar;
     }
 }

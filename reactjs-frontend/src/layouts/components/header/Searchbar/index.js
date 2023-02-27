@@ -6,9 +6,10 @@ import { Link } from 'react-router-dom';
 import Auth from './Auth';
 import Account from './Account';
 import UserService from '~/services/UserService';
+import { useDispatch, useSelector } from 'react-redux';
+
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
-import { defaultAvatar } from '~/assets'; // Kiểm tra hiện thị avartar
 
 const cx = classNames.bind(styles);
 
@@ -18,26 +19,33 @@ const cx = classNames.bind(styles);
 // };
 
 function Searchbar() {
-    const [login, setLogin] = useState(false);
-    const [currentAcc, setCurrentAcc] = useState();
+    // State
+    // const [login, setLogin] = useState(false);
+    // const [currentAcc, setCurrentAcc] = useState();
 
-    useLayoutEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
-        const tokenType = localStorage.getItem('tokenType');
+    // State redux
+    const auth = useSelector((state) => state.auth); // getState from redux store
+    // console.log('Search Bar', auth);
+    const dispatch = useDispatch(); // create dispatch
 
-        if ((accessToken, tokenType)) {
-            setLogin(true);
-            UserService.getUserDetail(accessToken, tokenType)
-                .then((res) => {
-                    return res.data;
-                })
-                .then((data) => {
-                    setCurrentAcc(data);
-                });
-        } else {
-            setLogin(false);
-        }
-    }, []);
+    // useLayoutEffect(() => {
+    //     const accessToken = localStorage.getItem('accessToken');
+    //     const tokenType = localStorage.getItem('tokenType');
+
+    //     if ((accessToken, tokenType)) {
+    //         setLogin(true);
+    //         UserService.getUserDetail(auth.accessToken, auth.tokenType)
+    //             .then((res) => {
+    //                 return res.data;
+    //             })
+    //             .then((data) => {
+    //                 setCurrentAcc(data);
+    //                 console.log(data);
+    //             });
+    //     } else {
+    //         setLogin(false);
+    //     }
+    // }, []);
 
     return (
         <Container fluid="xxl" className={cx('searchBar')}>
@@ -65,7 +73,7 @@ function Searchbar() {
                 {/* Hotline */}
                 <Col xs lg={3}>
                     <div className={cx('hotline')}>
-                        {login ? <Account acc={currentAcc} /> : <Auth />}
+                        {auth.login ? <Account /> : <Auth />}
 
                         {/* Card sidebar */}
                         <button className={` ${cx('hotlineItem', 'hotlineCard')}`}>

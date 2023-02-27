@@ -10,6 +10,8 @@ import UserService from '~/services/UserService';
 import classNames from 'classnames/bind';
 import styles from '../auth.module.scss';
 import * as yup from 'yup';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginSuccess, loginFalse } from '~/redux-toolkit/slice/auth/auth';
 
 const schema = yup.object({
     username: yup.string().required('Bạn chưa nhập tên đăng nhập!').email('Tên đăng nhập phải là một email'),
@@ -18,12 +20,30 @@ const schema = yup.object({
 
 const cx = classNames.bind(styles);
 
-const handlelogin = (values) => {
-    UserService.login(values);
-};
-
 const LoginPage = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // useNavigate in react routerDom
+
+    // Reudux state
+    const auth = useSelector((state) => state.auth); // get state from redux store
+    // console.log('Login Page', auth);
+    const dispatch = useDispatch(); // create dispatch
+
+    // handle funtion
+    const handlelogin = (values) => {
+        UserService.login(values)
+            .then((res) => {
+                const payload = {
+                    accessToken: res.data.accessToken,
+                    tokenType: res.data.tokenType,
+                    fullName: res.data.fullName,
+                    avatar: res.data.avatar
+                };
+                dispatch(loginSuccess(payload));
+            })
+            .catch(() => {
+                dispatch(loginFalse());
+            });
+    };
 
     return (
         <Container>

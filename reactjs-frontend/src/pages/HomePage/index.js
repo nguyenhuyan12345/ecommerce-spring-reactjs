@@ -106,9 +106,16 @@ function HomePage() {
 
     // side Effect
     useEffect(() => {
-        ProductService.getNewProducts().then((res) => {
-            console.log(res.data);
-        });
+        ProductService.getNewProducts()
+            .then((res) => {
+                // console.log(res.data);
+                setNewProduct(res.data);
+                // console.log('Sản phẩm mới', newProduct);
+                return newProduct;
+            })
+            .then((data) => {
+                // console.log('Sản phẩm mới', data);
+            });
     }, []);
 
     return (
