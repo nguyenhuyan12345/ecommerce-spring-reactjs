@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '~/constants/api';
 
 class ProductService {
-    async upLoadProduct(values, saveState, setSaveState) {
+    async upLoadProduct(values, accessToken, tokenType) {
         const data = new FormData();
 
         for (var key in values) {
@@ -22,7 +22,8 @@ class ProductService {
             const responseData = await axios
                 .post(API_BASE_URL + '/products/add', data, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: tokenType + ' ' + accessToken
                     }
                 })
                 .then((response) => {
@@ -66,7 +67,21 @@ class ProductService {
                     perPage: 12
                 }
             });
-            return res;
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getTopSellingProducts() {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-selling', {
+                params: {
+                    page: 0,
+                    perPage: 12
+                }
+            });
+            return res.data;
         } catch (e) {
             console.log(e);
         }

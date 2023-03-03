@@ -8,21 +8,6 @@ function MyListProductsPage() {
     const [component, setComponent] = useState(WaitLoading);
     const [pagination, setPagination] = useState({ page: 0, perPage: 10 });
 
-    // useEffect(() => {
-    //     ProductService.getAllProduct()
-    //         .then((res) => {
-    //             console.log(res);
-    //             return res.data;
-    //         })
-    //         .then((data) => {
-    //             console.log(data);
-    //             setComponent(ProductsTable(data));
-    //         })
-    //         .catch((e) => {
-    //             console.log(e);
-    //         });
-    // }, []);
-
     useEffect(() => {
         ProductService.getProduct(pagination)
             .then((res) => {

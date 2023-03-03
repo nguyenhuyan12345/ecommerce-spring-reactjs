@@ -6,6 +6,7 @@ import ecommerce.backend.demo.payload.request.ProductRequest;
 import ecommerce.backend.demo.payload.responce.ProductSaveResponse;
 import ecommerce.backend.demo.repository.GalleryRepository;
 import ecommerce.backend.demo.repository.ProductRepository;
+import ecommerce.backend.demo.repository.SoldRepository;
 import ecommerce.backend.demo.ultils.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ProductService {
     @Autowired
     GalleryRepository galleryRepository;
 
+    @Autowired
+    SoldRepository soldRepository;
+
     public List<Product> findAll() {
         return productRepository.findAll();
     }
@@ -49,13 +53,16 @@ public class ProductService {
         return newProducts;
     }
 
+    public  List<Product> findTopSelling(Integer page, Integer perPage) {
+        return null;
+    }
 
     public Product findByID(Long id) {
         Product product = productRepository.findById(id).get();
         return product;
     }
 
-    public ProductSaveResponse save(ProductRequest productRequest) {
+    public ProductSaveResponse save(ProductRequest productRequest, Long useId) {
 
         if (productRepository.findProductByTitle(productRequest.getTitle()) == null) {
             Product product = new Product();
@@ -69,6 +76,7 @@ public class ProductService {
 
             // Coppy properties
             BeanUtils.copyProperties(productRequest, product);
+            product.setUserId(useId);
 
             // Set time
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());

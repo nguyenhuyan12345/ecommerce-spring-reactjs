@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import ProductService from '~/services/ProductService';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setActiveItem } from '~/redux-toolkit/slice/Sidebar2';
 import * as yup from 'yup';
 import { Formik } from 'formik';
@@ -32,13 +32,15 @@ const schema = yup.object().shape({
 });
 
 function MyAddProductPage() {
-    const dispatch = useDispatch();
-
     // State
     const [file, setFile] = useState();
     const [multiFile, setMultiFile] = useState([]);
     const [saveState, setSaveState] = useState({});
     const navigate = useNavigate();
+
+    //Redux state
+    const auth = useSelector((state) => state.auth);
+    const { accessToken, tokenType } = auth;
 
     // Handle Funtion
     function handleChangeImg(e, setFieldValue) {
@@ -55,7 +57,7 @@ function MyAddProductPage() {
 
     function handleSubmitForm(values) {
         // Post
-        ProductService.upLoadProduct(values)
+        ProductService.upLoadProduct(values, accessToken, tokenType)
             .then((res) => {
                 setSaveState(res);
                 return saveState;

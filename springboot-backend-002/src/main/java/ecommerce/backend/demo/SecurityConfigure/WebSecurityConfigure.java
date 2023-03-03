@@ -57,7 +57,7 @@ public class WebSecurityConfigure {
                 .csrf().disable()
                 .authorizeRequests()
                 // Cấu hình authentication anh authorization filter chain
-                .antMatchers("/api/user/detail").authenticated()
+                .antMatchers("/api/user/detail", "/api/products/add").authenticated()
 //                .antMatchers("/api/cart/**", "/api/test/adminrole").hasAnyAuthority("ROLE_ADMIN")
 //                .antMatchers("/api/test/userrole").hasAnyAuthority("ROLE_USER")
                 .anyRequest().permitAll()

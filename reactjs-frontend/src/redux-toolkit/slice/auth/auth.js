@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, getDefaultMiddleware } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
@@ -6,7 +6,8 @@ const initialState = {
     accessToken: '',
     tokenType: '',
     fullName: '',
-    avatar: ''
+    avatar: '',
+    role: ''
 };
 
 // export consst
@@ -15,23 +16,17 @@ export const auth = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        loginSuccess: (state, loginData) => {
+        loginSuccess: (state, action) => {
             const newState = state;
             newState.login = true;
-            newState.accessToken = loginData.payload.accessToken;
-            newState.tokenType = loginData.payload.tokenType;
-            newState.fullName = loginData.payload.fullName;
-            newState.avatar = loginData.payload.avatar;
+            newState.accessToken = action.payload.accessToken;
+            newState.tokenType = action.payload.tokenType;
+            newState.fullName = action.payload.fullName;
+            newState.avatar = action.payload.avatar;
+            newState.role = action.payload.role;
             return newState;
         },
 
-        // loginFalse: (state) => {
-        //     const newState = state;
-        //     newState.login = false;
-        //     newState.accessToken = '';
-        //     newState.tokenType = '';
-        //     return newState;
-        // },
         logoutSuccess: (state) => {
             const newState = state;
             newState.login = false;

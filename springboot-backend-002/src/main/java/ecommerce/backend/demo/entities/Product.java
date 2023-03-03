@@ -42,6 +42,9 @@ public class Product {
     @Basic
     @Column(name = "update_at")
     private Timestamp updateAt;
+    @Basic
+    @Column(name = "user_id")
+    private Long userId;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id",insertable = false,updatable = false)

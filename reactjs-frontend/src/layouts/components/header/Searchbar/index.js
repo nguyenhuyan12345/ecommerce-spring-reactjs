@@ -13,39 +13,11 @@ import styles from './Searchbar.module.scss';
 
 const cx = classNames.bind(styles);
 
-// const exAcc = {
-//     name: 'huyan2010',
-//     img: undefined
-// };
-
 function Searchbar() {
-    // State
-    // const [login, setLogin] = useState(false);
-    // const [currentAcc, setCurrentAcc] = useState();
-
     // State redux
     const auth = useSelector((state) => state.auth); // getState from redux store
     // console.log('Search Bar', auth);
     const dispatch = useDispatch(); // create dispatch
-
-    // useLayoutEffect(() => {
-    //     const accessToken = localStorage.getItem('accessToken');
-    //     const tokenType = localStorage.getItem('tokenType');
-
-    //     if ((accessToken, tokenType)) {
-    //         setLogin(true);
-    //         UserService.getUserDetail(auth.accessToken, auth.tokenType)
-    //             .then((res) => {
-    //                 return res.data;
-    //             })
-    //             .then((data) => {
-    //                 setCurrentAcc(data);
-    //                 console.log(data);
-    //             });
-    //     } else {
-    //         setLogin(false);
-    //     }
-    // }, []);
 
     return (
         <Container fluid="xxl" className={cx('searchBar')}>

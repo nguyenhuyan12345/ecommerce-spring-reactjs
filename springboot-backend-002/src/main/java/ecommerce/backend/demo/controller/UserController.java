@@ -70,8 +70,9 @@ public class UserController {
          authentication.getPrincipal();
          String fullName = ((CustomUserDetail) authentication.getPrincipal()).getUser().getFullName();
          String avatar = ((CustomUserDetail) authentication.getPrincipal()).getUser().getAvatar();
+         String role = ((CustomUserDetail) authentication.getPrincipal()).getUser().getRole();
 //        System.out.println(jwt);
-        return new LoginResponse(jwt, fullName, avatar);
+        return new LoginResponse(jwt, fullName, avatar, role);
     }
 
     @GetMapping("/user/detail")

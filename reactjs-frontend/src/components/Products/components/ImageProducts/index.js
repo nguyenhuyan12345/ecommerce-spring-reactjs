@@ -2,12 +2,15 @@ import { useRef } from 'react';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { API_RESOURCES_URL } from '~/constants/api';
+
 import classNames from 'classnames/bind';
 import styles from './ImageProducts.module.scss';
 
 const cx = classNames.bind(styles);
 
 function ImageProducts({ product }) {
+    const { productImageList, discount } = product;
     const swiperRef = useRef();
 
     const handleNext = () => swiperRef.current.slideNext();
@@ -21,11 +24,15 @@ function ImageProducts({ product }) {
 
     return (
         <Swiper {...params_2}>
-            {product.src.map((src, index) => {
+            {productImageList.map((img, index) => {
                 return (
                     <SwiperSlide onMouseOver={handleNext} onMouseOut={handlePrev} key={index}>
-                        <img className={cx('productImage')} src={src} alt="Ảnh sản phẩm" />
-                        <span className={cx('productSale')}>{`${product.sale}%`}</span>
+                        <img
+                            className={cx('productImage')}
+                            src={API_RESOURCES_URL + '/' + img.thumbnail}
+                            alt="Ảnh sản phẩm"
+                        />
+                        <span className={cx('productSale')}>{`${discount}%`}</span>
                     </SwiperSlide>
                 );
             })}

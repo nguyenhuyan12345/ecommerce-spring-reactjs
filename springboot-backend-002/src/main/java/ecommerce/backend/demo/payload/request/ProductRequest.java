@@ -19,6 +19,7 @@ public class ProductRequest {
     private String category;
     @NotNull
     private Long price;
+
     private Long discount;
     @NotBlank
     private String description;

@@ -1,10 +1,11 @@
-import { configureStore, createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 // Import Reducer
 import active from './slice/active';
 import SideBar2ItemSlice from './slice/Sidebar2';
 import auth from './slice/auth/auth';
-// import thunk from 'redux-thunk';
+import newProducts from './slice/homePage/testCallApi';
+import topSelling from './slice/homePage/topSelling';
 
 // Import persist
 import storage from 'redux-persist/lib/storage';
@@ -16,28 +17,16 @@ const authPersistConfig = {
     storage
 };
 
-// const serializableMiddleware = createSerializableStateInvariantMiddleware({
-//     ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-// });
-
+// Redux persist
 const persistedAuth = persistReducer(authPersistConfig, auth);
 
 export const store = configureStore({
     reducer: {
         togle: active,
         ItemActive: SideBar2ItemSlice,
-        auth: persistedAuth
-        // devTools: process.env.NODE_ENV !== 'production',
-        // middleware: [thunk],
-        // middleware: [serializableMiddleware]
-        // middleware: (getDefaultMiddleware) =>
-        //     getDefaultMiddleware({
-        //         serializableCheck: {
-        //             ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-        //         }
-        //     })
-
-        // auth: auth
+        auth: persistedAuth,
+        newProducts: newProducts,
+        topSelling: topSelling
     }
 });
 
