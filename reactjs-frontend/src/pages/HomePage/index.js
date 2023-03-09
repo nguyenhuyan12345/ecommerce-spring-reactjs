@@ -3,29 +3,33 @@ import { ImageSlider, Policy, Products } from '~/components';
 import { topsSliderImg } from '~/assets';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProducts } from '~/redux-toolkit/slice/homePage/testCallApi';
+import { getTopNewProducts } from '~/redux-toolkit/slice/homePage/topNewProducts';
+import { getTopOrderProducts } from '~/redux-toolkit/slice/homePage/topOrders';
+import { getTopCoatProducts } from '~/redux-toolkit/slice/homePage/topCoats';
 
 function HomePage() {
     // redux state
-    const auth = useSelector((state) => state.auth);
-    const newProducts = useSelector((state) => state.newProducts);
-    console.log(newProducts.list);
-    const dispatch = useDispatch();
+    const topNewProducts = useSelector((state) => state.topNewProducts);
+    const topOrderProducts = useSelector((state) => state.topOrders);
+    const topCoatProducts = useSelector((state) => state.topCoats);
 
-    const { login, accessToken, tokenType, fullName, avatar, role } = auth;
+    const dispatch = useDispatch();
 
     // Side effect
     useEffect(() => {
-        dispatch(getProducts()); // dispatch actionn getProduct call API
+        // dispatch actionn getProduct call API
+        dispatch(getTopNewProducts());
+        dispatch(getTopOrderProducts());
+        dispatch(getTopCoatProducts());
     }, [dispatch]);
 
     return (
         <Container fluid="lg">
             <ImageSlider topsSliderImg={topsSliderImg}></ImageSlider>
             <Policy />
-            <Products title="hàng mới về" products={newProducts}></Products>
-            {/* <Products title="top áo khoác" products={coat}></Products>
-            <Products title="top bán chạy"></Products> */}
+            <Products title="hàng mới về" products={topNewProducts}></Products>
+            <Products title="Top bán chạy" products={topOrderProducts}></Products>
+            <Products title="Top áo khoác" products={topCoatProducts}></Products>
             <Policy />
         </Container>
     );

@@ -30,8 +30,6 @@ const SideBarItem = ({ items = defaultItems }) => {
         } else {
             setHideSideBarItem(true);
         }
-
-        console.log('hide', hideSideBarItem);
     };
 
     return (

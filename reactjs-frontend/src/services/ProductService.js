@@ -45,7 +45,7 @@ class ProductService {
         }
     }
 
-    async getProduct(pagination) {
+    async getProduct() {
         try {
             const res = await axios.get(API_BASE_URL + `/products/list/page`, {
                 params: {
@@ -59,12 +59,12 @@ class ProductService {
         }
     }
 
-    async getNewProducts() {
+    // Home Page Call API
+    async getTopNewProducts() {
         try {
-            const res = await axios.get(API_BASE_URL + '/products/list/new-products', {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-new', {
                 params: {
-                    page: 0,
-                    perPage: 12
+                    limit: 12
                 }
             });
             return res.data;
@@ -73,12 +73,69 @@ class ProductService {
         }
     }
 
+    async getTopOrderProducts() {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-order', {
+                params: {
+                    limit: 12
+                }
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getTopCoatProducts() {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-coat', {
+                params: {
+                    limit: 12
+                }
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    // New Product Page Call API
+    async getNewProducts() {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/new-products', {
+                params: {
+                    page: 0,
+                    perPage: 20
+                }
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    // Product Page Call API
+    async getProducts() {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/products', {
+                params: {
+                    page: 0,
+                    perPage: 20
+                }
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    // Top Selling Page Call API
     async getTopSellingProducts() {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-selling', {
                 params: {
                     page: 0,
-                    perPage: 12
+                    perPage: 20
                 }
             });
             return res.data;

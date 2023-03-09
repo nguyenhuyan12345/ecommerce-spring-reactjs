@@ -4,3 +4,6 @@ export { default as Policy } from './Policy';
 export { default as Products } from './Products';
 export { default as SubProducts } from './SubProducts';
 export { default as Main } from './main';
+export { default as TopImage } from './TopImage';
+export { default as TopSort } from './TopSort';
+export { default as WaitLoading } from './WaitLoading';

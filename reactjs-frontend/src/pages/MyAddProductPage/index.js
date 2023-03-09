@@ -1,16 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import ProductService from '~/services/ProductService';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setActiveItem } from '~/redux-toolkit/slice/Sidebar2';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import classNames from 'classnames/bind';
 import styles from './MyAddProductPage.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose, faPlusSquare, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+
+import { addColor, removeColor, setNewColor } from '~/redux-toolkit/slice/addProductPage/ProductColorList';
+import ColorInput from './colorInput';
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +34,12 @@ const schema = yup.object().shape({
     fileMainImage: yup.string().required('Bạn chưa nhập hình ảnh chính của sản phẩm'),
     multiFileImage: yup.array().required('Bạn chưa nhập hình ảnh mô tả thêm cho sản phẩm'),
     brand: yup.string().required('Bạn chưa nhập thương hiệu')
+    // colorList: yup.array().of(
+    //     yup.object().shape({
+    //         file: yup.string().required('Bạn chưa nhập ảnh'),
+    //         colorName: yup.string().required('Bạn chưa nhập màu')
+    //     })
+    // )
 });
 
 function MyAddProductPage() {
@@ -40,10 +51,12 @@ function MyAddProductPage() {
 
     //Redux state
     const auth = useSelector((state) => state.auth);
+    const poductColorList = useSelector((state) => state.productColorlist);
     const { accessToken, tokenType } = auth;
+    const dispatch = useDispatch();
 
     // Handle Funtion
-    function handleChangeImg(e, setFieldValue) {
+    function handleChangeImg(e, setFieldValue, poductColorList) {
         setFile(URL.createObjectURL(e.target.files[0]));
         setFieldValue('fileMainImage', e.target.files[0]);
     }
@@ -91,22 +104,27 @@ function MyAddProductPage() {
         'Áo sơ mi nam'
     ];
 
+    const initialValues = {
+        category: '',
+        title: '',
+        price: '',
+        discount: '',
+        description: '',
+        fileMainImage: '',
+        multiFileImage: '',
+        brand: '',
+        poductColorList: ''
+    };
+
+    useEffect(() => {}, [dispatch]);
+
     return (
         <Formik
             validationSchema={schema}
             onSubmit={(values) => {
                 handleSubmitForm(values);
             }}
-            initialValues={{
-                category: '',
-                title: '',
-                price: '',
-                discount: '',
-                description: '',
-                fileMainImage: '',
-                multiFileImage: '',
-                brand: ''
-            }}
+            initialValues={initialValues}
         >
             {({ handleSubmit, handleChange, handleBlur, values, touched, isValid, errors, setFieldValue }) => (
                 <Form noValidate onSubmit={handleSubmit} encType="multipart/form-data">
@@ -224,7 +242,7 @@ function MyAddProductPage() {
                                         type="file"
                                         size="lg"
                                         onChange={(e) => {
-                                            handleChangeImg(e, setFieldValue);
+                                            handleChangeImg(e, setFieldValue, poductColorList);
                                         }}
                                         onBlur={handleBlur}
                                         isValid={!errors.fileMainImage}
@@ -263,35 +281,85 @@ function MyAddProductPage() {
                     </Row>
                     {/* More Image */}
                     <Row className="mb-4">
-                        <Form.Group>
-                            <Form.Label className="h4">Ảnh phụ mô tả sản phẩm</Form.Label>
-                            <Form.Control
-                                type="file"
-                                multiple
-                                size="lg"
-                                onChange={(e) => {
-                                    handleChangeMultiImg(e, setFieldValue);
-                                }}
-                                onBlur={handleBlur}
-                                isValid={!errors.multiFileImage}
-                            />
-                            <Form.Text className="text-danger">
-                                <span className="h5">{errors.multiFileImage}</span>
-                            </Form.Text>
-                        </Form.Group>
+                        <Col>
+                            <Form.Group>
+                                <Form.Label className="h4">Ảnh phụ mô tả sản phẩm</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    multiple
+                                    size="lg"
+                                    onChange={(e) => {
+                                        handleChangeMultiImg(e, setFieldValue);
+                                    }}
+                                    onBlur={handleBlur}
+                                    isValid={!errors.multiFileImage}
+                                />
+                                <Form.Text className="text-danger">
+                                    <span className="h5">{errors.multiFileImage}</span>
+                                </Form.Text>
+                            </Form.Group>
+                        </Col>
                     </Row>
                     <Row className="mb-4">
                         {multiFile.map((fileUrl, index) => {
                             return (
-                                <Col xs={3} key={index}>
+                                <Col xs={2} key={index}>
                                     <img className={cx('imageUpload')} src={fileUrl} />
                                 </Col>
                             );
                         })}
                     </Row>
+
+                    {/* Product Color */}
+                    <Row className="mb-4">
+                        <Form.Label className="h4">Thêm chi tiết màu sản phẩm</Form.Label>
+                        {poductColorList.map((poductColor, index) => {
+                            return (
+                                <Col key={index} xs={2} className={`position-relative ${cx('colorIamgeContaniner')}`}>
+                                    <ColorInput
+                                        removeColor={removeColor}
+                                        dispatch={dispatch}
+                                        id={poductColor.id}
+                                        setFieldValue={setFieldValue}
+                                        values={values}
+                                        errors={errors}
+                                        // values={values}
+                                    />
+                                </Col>
+                            );
+                        })}
+
+                        <Col xs={2}>
+                            <div className={`position-relative ${cx('addColorContainer')}`}>
+                                <div
+                                    onClick={() => {
+                                        dispatch(addColor());
+                                    }}
+                                >
+                                    <div
+                                        className={`d-flex justify-content-center align-items-center ${cx(
+                                            'plussContainer'
+                                        )}`}
+                                    >
+                                        <FontAwesomeIcon className={cx('plussIcon')} icon={faPlusSquare} />
+                                    </div>
+                                </div>
+                            </div>
+                        </Col>
+                    </Row>
+
                     <Row className="mb-4">
                         <Col>
-                            <Button type="submit" size="lg">
+                            <Button
+                                type="submit"
+                                size="lg"
+                                onClick={() => {
+                                    console.log('values', values);
+                                    console.log('error', errors);
+                                    console.log(poductColorList);
+                                    setFieldValue('poductColorList', poductColorList);
+                                }}
+                            >
                                 Thêm sản phẩm
                             </Button>
                         </Col>

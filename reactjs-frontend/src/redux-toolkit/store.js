@@ -4,8 +4,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import active from './slice/active';
 import SideBar2ItemSlice from './slice/Sidebar2';
 import auth from './slice/auth/auth';
-import newProducts from './slice/homePage/testCallApi';
-import topSelling from './slice/homePage/topSelling';
+import topNewProducts from './slice/homePage/topNewProducts';
+import topOrders from './slice/homePage/topOrders';
+import topCoats from './slice/homePage/topCoats';
+import newProducts from './slice/newProductPage/newProductPage';
+import products from './slice/productPage/productPage';
+import sellingProducts from './slice/sellingProductPage/sellingProductPage';
+import productColorlist from './slice/addProductPage/ProductColorList';
 
 // Import persist
 import storage from 'redux-persist/lib/storage';
@@ -25,8 +30,13 @@ export const store = configureStore({
         togle: active,
         ItemActive: SideBar2ItemSlice,
         auth: persistedAuth,
-        newProducts: newProducts,
-        topSelling: topSelling
+        topNewProducts,
+        topOrders,
+        topCoats,
+        newProducts,
+        products,
+        sellingProducts,
+        productColorlist
     }
 });
 

@@ -19,8 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
-@CrossOrigin(origins = "http://localhost:5050")
+@RequestMapping("/products")
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -31,30 +30,48 @@ public class ProductController {
     @Autowired
     UserService userService;
 
-
-
-//    @GetMapping(value = "/list", produces = {MediaType.APPLICATION_XML_VALUE})
-//    public List<Product> getAllProduct() {
-//        List<Product> lst = productService.findAll();
-//        for (Product p: lst
-//             ) {
-//            p.setUpdateAt(new Timestamp(System.currentTimeMillis()));
-//        }
-//        return lst;
-//    }
-
-    @GetMapping(value = "/list")
-    public List<Product> getAllProduct() {
-        return productService.findAll();
+    // Home Page Url
+    @GetMapping(value = "/list/top-new")
+    public List<Product> getNewProducts(@RequestParam(name = "limit", defaultValue = "10") Integer limit) {
+        return productService.findTopNew(limit);
     }
 
-    @GetMapping(value = "/list/{page}/{perPage}")
-    public  List<Product> getPageProduct(@PathVariable(required = false) int page, @PathVariable(required = false) int perPage) {
+    @GetMapping(value = "/list/top-order")
+    public List<Product> getTopOrders(@RequestParam(name = "limit", defaultValue = "10") Integer limit) {
+        return productService.findTopOrder(limit);
+    }
+
+    @GetMapping(value = "/list/top-coat")
+    public List<Product> getTopCoats(@RequestParam(name = "limit", defaultValue = "10") Integer limit) {
+        return productService.findTopCoat(limit);
+    }
+
+    // New Product Page Url
+    @GetMapping(value = "/list/new-products")
+    public List<Product> getNewProducts(@RequestParam(name = "page", defaultValue = "0") Integer page, @RequestParam(name = "perPage", defaultValue = "32") Integer perPage) {
+        return productService.findNewProduct(page, perPage);
+    }
+
+    // Product Page UrL
+    @GetMapping(value = "/list/products")
+    public List<Product> getProducts(@RequestParam(name = "page", defaultValue = "0") Integer page, @RequestParam(name = "perPage", defaultValue = "32") Integer perPage) {
         return productService.findAll(page, perPage);
     }
 
-    @GetMapping(value = "/list/page")
-    public  List<Product> getPageProduct(@RequestParam(name ="page", defaultValue = "0") Integer page, @RequestParam(name = "perPage", defaultValue = "24") Integer perPage ) {
+    // Top Selling Page Url
+    @GetMapping(value = "/list/top-selling")
+    public  List<Product> getTopSellingProducts(@RequestParam(name = "page", defaultValue = "0") Integer page, @RequestParam(name = "perPage", defaultValue = "16") Integer perPage) {
+        return productService.findTopSellingProducts(page, perPage);
+    }
+
+
+//    @GetMapping(value = "/list")
+//    public List<Product> getAllProduct() {
+//        return productService.findAll();
+//    }
+
+    @GetMapping(value = "/list/{page}/{perPage}")
+    public List<Product> getPageProduct(@PathVariable(required = false) int page, @PathVariable(required = false) int perPage) {
         return productService.findAll(page, perPage);
     }
 
@@ -64,7 +81,7 @@ public class ProductController {
     }
 
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addProduct( @Valid ProductRequest productRequest, BindingResult bindingResult, @RequestHeader(value = "Authorization", required = false) String authorization ) {
+    public ResponseEntity<?> addProduct(@Valid ProductRequest productRequest, BindingResult bindingResult, @RequestHeader(value = "Authorization", required = false) String authorization) {
 
         String jwt = authorization.substring(7);
         Long userId = tokenProvider.getUserIdFromJWT(jwt);
@@ -75,17 +92,6 @@ public class ProductController {
                     .body(new MessageResponse("Thêm sản phẩm không thành công"));
         }
 
-        //Code logic save product
         return ResponseEntity.ok(productService.save(productRequest, userId));
-    }
-
-    @GetMapping(value = "/list/new-products")
-    public List<Product> getNewProducts(@RequestParam(name = "page", defaultValue = "0") Integer page , @RequestParam(name = "prePage", defaultValue = "10") Integer perPage) {
-        return productService.findNewProduct(page, perPage);
-    }
-
-    @GetMapping(value = "/list/top-selling")
-    public List<Product> getTopSelling(@RequestParam(name = "page", defaultValue = "0") Integer page, @RequestParam(name = "perPage", defaultValue = "10") Integer perPage) {
-        return productService.findTopSelling(page, perPage);
     }
 }

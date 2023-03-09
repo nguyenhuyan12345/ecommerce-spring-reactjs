@@ -8,7 +8,7 @@ function ShowMores() {
     return (
         <>
             <Row>
-                <Col className="g-5" xs={12} md={3}>
+                <Col className="" xs={12} md={3}>
                     <div className={`${cx('widget')}`}>
                         <div className={cx('logo')}>
                             <a>
@@ -31,38 +31,63 @@ function ShowMores() {
                             </span>
                         </h3>
                         <ul className={cx('listMenu')}>
-                            <li>
-                                <a href="/search" title="Tìm kiếm" rel="nofollow">
+                            <li className={cx('listMenuItem')}>
+                                <a className={cx('listMenuLink')} href="/search" title="Tìm kiếm" rel="nofollow">
                                     Tìm kiếm
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/about-us" title="Giới thiệu" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/about-us"
+                                    title="Giới thiệu"
+                                    rel="nofollow"
+                                >
                                     Giới thiệu
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/chinh-sach-doi-tra" title="Chính sách đổi trả" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/chinh-sach-doi-tra"
+                                    title="Chính sách đổi trả"
+                                    rel="nofollow"
+                                >
                                     Chính sách đổi trả
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/chinh-sach-bao-mat" title="Chính sách bảo mật" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/chinh-sach-bao-mat"
+                                    title="Chính sách bảo mật"
+                                    rel="nofollow"
+                                >
                                     Chính sách bảo mật
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/dieu-khoan-dich-vu" title="Điều khoản dịch vụ" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/dieu-khoan-dich-vu"
+                                    title="Điều khoản dịch vụ"
+                                    rel="nofollow"
+                                >
                                     Điều khoản dịch vụ
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/thanh-toan-giao-nhan" title="Thanh toán, Giao nhận" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/thanh-toan-giao-nhan"
+                                    title="Thanh toán, Giao nhận"
+                                    rel="nofollow"
+                                >
                                     Thanh toán, Giao nhận
                                 </a>
                             </li>
@@ -79,37 +104,62 @@ function ShowMores() {
                         </h3>
                         <ul className="list-menu has-click">
                             <li>
-                                <a href="/search" title="Tìm kiếm" rel="nofollow">
+                                <a className={cx('listMenuLink')} href="/search" title="Tìm kiếm" rel="nofollow">
                                     Tìm kiếm
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/about-us" title="Giới thiệu" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/about-us"
+                                    title="Giới thiệu"
+                                    rel="nofollow"
+                                >
                                     Giới thiệu
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/chinh-sach-doi-tra" title="Chính sách đổi trả" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/chinh-sach-doi-tra"
+                                    title="Chính sách đổi trả"
+                                    rel="nofollow"
+                                >
                                     Chính sách đổi trả
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/chinh-sach-bao-mat" title="Chính sách bảo mật" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/chinh-sach-bao-mat"
+                                    title="Chính sách bảo mật"
+                                    rel="nofollow"
+                                >
                                     Chính sách bảo mật
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/dieu-khoan-dich-vu" title="Điều khoản dịch vụ" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/dieu-khoan-dich-vu"
+                                    title="Điều khoản dịch vụ"
+                                    rel="nofollow"
+                                >
                                     Điều khoản dịch vụ
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/pages/thanh-toan-giao-nhan" title="Thanh toán, Giao nhận" rel="nofollow">
+                                <a
+                                    className={cx('listMenuLink')}
+                                    href="/pages/thanh-toan-giao-nhan"
+                                    title="Thanh toán, Giao nhận"
+                                    rel="nofollow"
+                                >
                                     Thanh toán, Giao nhận
                                 </a>
                             </li>
@@ -120,49 +170,15 @@ function ShowMores() {
                     <div className={cx('widget', 'fanpage')}>
                         <h3 className={cx('label')}>
                             FANPAGE
-                            <span className="icon-plus">
-                                <i className="fas fa-caret-down"></i>
-                            </span>
+                            <span className="icon-plus"></span>
+                            {/* <i className="fas fa-caret-down"></i> */}
                         </h3>
-                    </div>
-                </Col>
-                <Col xs={12} md={3}>
-                    <div className={cx('widget', 'fanpage')}>
-                        <h3 className={cx('label')}>
-                            PHƯƠNG THỨC THANH TOÁN
-                            <span className="icon-plus">
-                                <i className="fas fa-caret-down"></i>
-                            </span>
-                        </h3>
-                        <ul>
-                            <li>
-                                Hotline 1: <a href="tel:0981612512">0981612512</a>
-                            </li>
-
-                            <li>
-                                Hotline 2: <a href="tel:0962785839">0962785839</a>
-                            </li>
-                        </ul>
-                    </div>
-                </Col>
-                <Col xs={12} md={3}>
-                    <div className={cx('widget', 'support')}>
-                        <h3 className={cx('label')}>
-                            KẾT NỐI VỚI CHÚNG TÔI
-                            <span className="icon-plus">
-                                <i className="fas fa-caret-down"></i>
-                            </span>
-                        </h3>
-                    </div>
-                </Col>
-                <Col xs={12} md={4}>
-                    <div className={cx('widget', 'support')}>
-                        <h3 className={cx('label')}>
-                            Hỗ trợ khách hàng{' '}
-                            <span className="icon-plus">
-                                <i className="fas fa-caret-down"></i>
-                            </span>
-                        </h3>
+                        <div>
+                            <img
+                                className="icon-plus-img"
+                                src="https://scontent.xx.fbcdn.net/v/t39.30808-6/318346738_3409808109275348_6901044603218946922_n.png?stp=dst-png_s350x350&_nc_cat=109&ccb=1-7&_nc_sid=dd9801&_nc_ohc=2qIERsCVAkMAX_us-1l&_nc_ht=scontent.xx&edm=AOm7FCUEAAAA&oh=00_AfCkdBplds7h8QyQbQLn-Y1hwjjpk_wLfQjHrSlel_xqLg&oe=64096642"
+                            />
+                        </div>
                     </div>
                 </Col>
             </Row>

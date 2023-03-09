@@ -1,20 +1,21 @@
 package ecommerce.backend.demo.sevice;
 
 import ecommerce.backend.demo.entities.Gallery;
+import ecommerce.backend.demo.entities.OrderDetails;
 import ecommerce.backend.demo.entities.Product;
 import ecommerce.backend.demo.payload.request.ProductRequest;
 import ecommerce.backend.demo.payload.responce.ProductSaveResponse;
 import ecommerce.backend.demo.repository.GalleryRepository;
+import ecommerce.backend.demo.repository.OrderDetailsRepository;
 import ecommerce.backend.demo.repository.ProductRepository;
-import ecommerce.backend.demo.repository.SoldRepository;
 import ecommerce.backend.demo.ultils.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -33,7 +33,7 @@ public class ProductService {
     GalleryRepository galleryRepository;
 
     @Autowired
-    SoldRepository soldRepository;
+    OrderDetailsRepository orderDetailsRepository;
 
     public List<Product> findAll() {
         return productRepository.findAll();
@@ -46,21 +46,81 @@ public class ProductService {
         return listProduct;
     }
 
-    public  List<Product> findNewProduct(Integer page, Integer perPage) {
+    public List<Product> findTopNew(Integer limit) {
+        List<Product> products = new ArrayList<>();
+        products = productRepository.findTopNew(limit);
+//        Page<?> pageAll = productRepository.findTopNew(limit);
+//        products = (List<Product>) pageAll.getContent();
+        for (Product p : products) {
+            long sumNumOrder = 0;
+            for (OrderDetails o : p.getOrderDetails()) {
+                sumNumOrder += o.getNum();
+            }
+            p.setSumNumOrder(sumNumOrder);
+        }
+        return products;
+//        return productRepository.findTopNew(limit);
+    }
+
+    public List<Product> findTopOrder(Integer limit) {
+        List<Product> products = new ArrayList<>();
+        products = productRepository.findTopOrderProducts(limit);
+        for (Product p : products) {
+            long sumNumOrder = 0;
+            for (OrderDetails o : p.getOrderDetails()) {
+                sumNumOrder += o.getNum();
+            }
+            p.setSumNumOrder(sumNumOrder);
+        }
+        return products;
+    }
+
+    public List<Product> findTopCoat(Integer limit) {
+        List<Product> products = new ArrayList<>();
+        products = productRepository.findTopCoatProducts(limit);
+        for (Product p : products) {
+            long sumNumOrder = 0;
+            for (OrderDetails o : p.getOrderDetails()) {
+                sumNumOrder += o.getNum();
+            }
+            p.setSumNumOrder(sumNumOrder);
+        }
+        return products;
+    }
+
+    public List<Product> findNewProduct(Integer page, Integer perPage) {
         List<Product> newProducts = new ArrayList<>();
-        Page<?> pageAll = productRepository.findAll(PageRequest.of(page,perPage, Sort.by(Sort.Direction.ASC, "createAt")));
+        Page<?> pageAll = productRepository.findAll(PageRequest.of(page, perPage, Sort.by(Sort.Direction.DESC, "createAt")));
         newProducts = (List<Product>) pageAll.getContent();
+        for (Product p : newProducts) {
+            long sumNumOrder = 0;
+            for (OrderDetails o : p.getOrderDetails()) {
+                sumNumOrder += o.getNum();
+            }
+            p.setSumNumOrder(sumNumOrder);
+        }
         return newProducts;
     }
 
-    public  List<Product> findTopSelling(Integer page, Integer perPage) {
-        return null;
+    public List<Product> findTopSellingProducts(Integer page, Integer prePage) {
+        List<Product> products = new ArrayList<>();
+        try {
+            Page<?> page1 = orderDetailsRepository.findTopSumNum(PageRequest.of(page, prePage));
+            System.out.println(page1.getContent());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
+        return products;
     }
+
 
     public Product findByID(Long id) {
         Product product = productRepository.findById(id).get();
         return product;
     }
+
 
     public ProductSaveResponse save(ProductRequest productRequest, Long useId) {
 

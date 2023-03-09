@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk, getDefaultMiddleware } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     login: false,

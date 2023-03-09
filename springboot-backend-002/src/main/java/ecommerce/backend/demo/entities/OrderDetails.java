@@ -15,14 +15,20 @@ import java.util.Objects;
 public class OrderDetails {
     @Id
     @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Basic
     @Column(name = "order_id")
-    private Integer orderId;
+    private Long orderId;
+    @Basic
+    @Column(name = "product_id")
+    private Long productId;
     @Basic
     @Column(name = "price")
-    private Integer price;
+    private Long price;
     @Basic
     @Column(name = "num")
-    private Integer num;
+    private Long num;
+
+    private Long sumNum;
 }

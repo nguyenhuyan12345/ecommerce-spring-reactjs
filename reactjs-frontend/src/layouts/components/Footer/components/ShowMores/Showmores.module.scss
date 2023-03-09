@@ -12,10 +12,28 @@ label {
 }
 
 .logo,
-.label {
+.label,
+.listMenuLink {
     padding-bottom: 15px;
+    color: #fff !important;
 }
 
 .description {
     font-size: 1.4rem;
+}
+
+.listMenu {
+}
+
+.listMenuItem {
+}
+
+.listMenuLink {
+    padding-bottom: 12px;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.icon-plus-img {
+    margin-top: 30px;
 }

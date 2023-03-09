@@ -40,3 +40,66 @@
     width: 100%;
     height: auto;
 }
+
+// ColorInPut css module
+
+:root {
+    --iamge-width: 120px;
+    --iamge-height: 120px;
+}
+
+.addColorContainer {
+    cursor: pointer;
+
+    .plussContainer {
+        margin: 10px 0;
+        aspect-ratio: 1/1;
+        width: 100%;
+        background-color: #efefef;
+        z-index: 1;
+
+        .plussIcon {
+            font-size: 5rem;
+        }
+    }
+
+    .colorIamge {
+        aspect-ratio: 1/1;
+        width: 100%;
+        background-color: transparent;
+        top: 0;
+        z-index: 0;
+    }
+
+    .addColorInputImage {
+        color: transparent;
+        background-color: transparent;
+        display: none;
+    }
+
+    .addColorInputImageName {
+        padding: 1px 4px;
+        font-size: 1.2rem;
+    }
+
+    .btnRemoveIamge {
+        top: 4px;
+        right: 4px;
+        z-index: 10;
+        font-size: 1.5rem;
+
+        &:hover {
+            color: #008891;
+        }
+    }
+}
+
+.addColorInputImageContainer {
+    aspect-ratio: 1/1;
+    width: 100%;
+    top: 0;
+    z-index: 3;
+    color: transparent;
+    background-color: transparent;
+    cursor: pointer;
+}

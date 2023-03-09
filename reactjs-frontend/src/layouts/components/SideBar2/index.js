@@ -60,7 +60,6 @@ const sideBarItem = [
 function SideBar2() {
     const itemActive = useSelector((state) => state.ItemActive);
     const dispatch = useDispatch();
-    // console.log(itemActive.activeID);
 
     return (
         <div>

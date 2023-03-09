@@ -1,12 +1,11 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faCartShopping, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Auth from './Auth';
 import Account from './Account';
-import UserService from '~/services/UserService';
-import { useDispatch, useSelector } from 'react-redux';
+import Cart from './Cart';
+import { useSelector, useDispatch } from 'react-redux';
 
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
@@ -48,9 +47,10 @@ function Searchbar() {
                         {auth.login ? <Account /> : <Auth />}
 
                         {/* Card sidebar */}
-                        <button className={` ${cx('hotlineItem', 'hotlineCard')}`}>
+                        {/* <button className={` ${cx('hotlineItem', 'hotlineCard')}`}>
                             <FontAwesomeIcon icon={faCartShopping} />
-                        </button>
+                        </button> */}
+                        <Cart />
 
                         {/* Menu sidebar*/}
                         <button className={`d-lg-none ${cx('hotlineItem', 'hotlineMenu')}`}>

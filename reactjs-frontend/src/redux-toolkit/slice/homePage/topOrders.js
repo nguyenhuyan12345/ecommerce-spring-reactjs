@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import ProductService from '~/services/ProductService';
 
-export const getTopSellingProducts = createAsyncThunk(
-    'topSelling/getTopSellingProducts',
-    ProductService.getTopSellingProducts
+// extra reducer
+export const getTopOrderProducts = createAsyncThunk(
+    'topOrders/getTopOrderProducts',
+    ProductService.getTopOrderProducts
 );
 
-const topSellingProductsSlice = createSlice({
-    name: 'topSelling',
+const getTopOrderProductsSlice = createSlice({
+    name: 'topOrders',
     initialState: {
         list: [],
         isLoading: false,
@@ -17,18 +18,18 @@ const topSellingProductsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getTopSellingProducts.pending, (state, action) => {
+            .addCase(getTopOrderProducts.pending, (state, action) => {
                 state.isLoading = true;
                 state.hasError = false;
                 state.status = 'pending';
             })
-            .addCase(getTopSellingProducts.fulfilled, (state, action) => {
+            .addCase(getTopOrderProducts.fulfilled, (state, action) => {
                 state.list = action.payload;
                 state.isLoading = false;
                 state.hasError = false;
                 state.status = 'fulfilled';
             })
-            .addCase(getTopSellingProducts.rejected, (state, action) => {
+            .addCase(getTopOrderProducts.rejected, (state, action) => {
                 state.hasError = true;
                 state.isLoading = false;
                 state.status = 'rejected';
@@ -36,4 +37,4 @@ const topSellingProductsSlice = createSlice({
     }
 });
 
-export default topSellingProductsSlice.reducer;
+export default getTopOrderProductsSlice.reducer;

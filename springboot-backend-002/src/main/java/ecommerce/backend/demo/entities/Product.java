@@ -3,6 +3,8 @@ package ecommerce.backend.demo.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -47,6 +49,18 @@ public class Product {
     private Long userId;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "id",insertable = false,updatable = false)
+    @Fetch(value = FetchMode.SUBSELECT)
+//    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
     List<Gallery> productImageList;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+//    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
+    List<OrderDetails> orderDetails;
+
+    private Long sumNum;
+
+    private Long sumNumOrder;
 }

@@ -24,6 +24,7 @@ function Products({ title = 'HÀNG MỚI VỀ', products }) {
     // hasError: trang thai loi
     // status: trang thai
     const { list, isLoading, hasError, status } = products;
+    // console.log(list);
 
     const swiperRef = useRef();
     const [visible, setVisible] = useState(false);
@@ -40,6 +41,10 @@ function Products({ title = 'HÀNG MỚI VỀ', products }) {
         const newPrice = (price - (price / 100) * discount) / 10000;
         const discountPrice = Math.round(newPrice) * 10000;
         return discountPrice;
+    };
+
+    const handleAddCart = () => {
+        console.log('Đã thêm vào giỏ hàng');
     };
 
     const params = {
@@ -75,9 +80,9 @@ function Products({ title = 'HÀNG MỚI VỀ', products }) {
                                             >
                                                 {product.description.toLocaleUpperCase()}
                                             </Card.Title>
-                                            {/* <Card.Text
-                                            className={cx('productDescription')}
-                                        >{`(${product.purchased} đã bán)`}</Card.Text> */}
+                                            <Card.Text className={cx('productDescription')}>
+                                                {product.sumNumOrder ? `(${product.sumNumOrder} đã bán)` : `(0 đã bán)`}
+                                            </Card.Text>
                                             <Card.Text className={cx('productCost')}>
                                                 <span>
                                                     {handleFomat(handleDiscountPrice(price, discount))}
@@ -87,7 +92,7 @@ function Products({ title = 'HÀNG MỚI VỀ', products }) {
                                             </Card.Text>
                                             <button className={cx('btnAddToCard')}>
                                                 <FontAwesomeIcon icon={faPlus} />
-                                                <span>Thêm vào giỏ</span>
+                                                <span onClick={handleAddCart}>Thêm vào giỏ</span>
                                             </button>
                                         </div>
                                     </SwiperSlide>

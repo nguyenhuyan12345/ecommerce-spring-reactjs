@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Row } from 'react-bootstrap';
 import ProductService from '~/services/ProductService';
 import ProductsTable from './ProductsTable';
-import WaitLoading from './WaitLoading';
+import { WaitLoading } from '~/components';
 
 function MyListProductsPage() {
     const [component, setComponent] = useState(WaitLoading);
