@@ -9,18 +9,7 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 
 @SpringBootApplication
 public class DemoApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
-//    @Bean
-//    public HttpMessageConverter<Object> createXmlHttpMessageConverter()
-//    {
-//        final MarshallingHttpMessageConverter xmlConverter = new MarshallingHttpMessageConverter();
-//        final XStreamMarshaller xstreamMarshaller = new XStreamMarshaller();
-//        xstreamMarshaller.setAutodetectAnnotations(true);
-//        xmlConverter.setMarshaller(xstreamMarshallerller);
-//        return xmlConverter;);
-//        xmlConverter.setUnmarshaller(xstreamMarsha
-//    }
 }

@@ -10,7 +10,6 @@ import topCoats from './slice/homePage/topCoats';
 import newProducts from './slice/newProductPage/newProductPage';
 import products from './slice/productPage/productPage';
 import sellingProducts from './slice/sellingProductPage/sellingProductPage';
-import productColorlist from './slice/addProductPage/ProductColorList';
 
 // Import persist
 import storage from 'redux-persist/lib/storage';
@@ -35,8 +34,7 @@ export const store = configureStore({
         topCoats,
         newProducts,
         products,
-        sellingProducts,
-        productColorlist
+        sellingProducts
     }
 });
 

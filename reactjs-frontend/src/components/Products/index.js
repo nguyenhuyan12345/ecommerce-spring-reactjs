@@ -19,12 +19,7 @@ import styles from './Products.module.scss';
 const cx = classNames.bind(styles);
 
 function Products({ title = 'HÀNG MỚI VỀ', products }) {
-    // list: danh sach san pham
-    // isLoading: trang thai loading
-    // hasError: trang thai loi
-    // status: trang thai
     const { list, isLoading, hasError, status } = products;
-    // console.log(list);
 
     const swiperRef = useRef();
     const [visible, setVisible] = useState(false);
@@ -81,7 +76,7 @@ function Products({ title = 'HÀNG MỚI VỀ', products }) {
                                                 {product.description.toLocaleUpperCase()}
                                             </Card.Title>
                                             <Card.Text className={cx('productDescription')}>
-                                                {product.sumNumOrder ? `(${product.sumNumOrder} đã bán)` : `(0 đã bán)`}
+                                                {product.sumOrder ? `(${product.sumOrder} đã bán)` : `(0 đã bán)`}
                                             </Card.Text>
                                             <Card.Text className={cx('productCost')}>
                                                 <span>

@@ -1,6 +1,7 @@
 package ecommerce.backend.demo.repository;
 
 import ecommerce.backend.demo.entities.Product;
+import ecommerce.backend.demo.payload.responce.TopNewProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,14 +12,9 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findProductByTitle(String title);
 
-    @Query(value = "select * from sale_site_1.product as p order by p.create_at desc limit ?1", nativeQuery = true)
-    List<Product> findTopNew(Integer limit);
+    @Query(value = "select new ecommerce.backend.demo.payload.responce.TopNewProductResponse(p.id, p.price, p.discount, p.description) from Product p  order by p.createAt desc")
+    Page<TopNewProductResponse> findTopNew(Pageable pageable);
 
-/*    @Query(value = "SELECT p FROM Product p left join OrderDetails o order by p.createAt DESC")
-    Page<Product> findTopNew(Pageable pageable);*/
-
-/*    @Query(value = "SELECT p, sum (o.num) as sumNum FROM OrderDetails o left join Product p order by p.createAt desc")
-    Page<Product> findTopNew(Pageable pageable);*/
 
     @Query(value = "select p.*, sum(od_t.num) as \"sum_order\" from sale_site_1.order_details as od_t left join " +
             "sale_site_1.product as p on od_t.product_id = p.id group by od_t.product_id order by od_t.product_id LIMIT ?1",

@@ -1,5 +1,6 @@
 package ecommerce.backend.demo.payload.request;
 
+import ecommerce.backend.demo.payload.dto.InventoryDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,16 +24,31 @@ public class ProductRequest {
     private Long discount;
     @NotBlank
     private String description;
-    @NotBlank
+
     private String mainImage;
-    @NotBlank
+
     private String multiImage;
+
     @NotBlank
     private String brand;
 
+    @NotNull
+    private String[] colorName;
+
+    @NotNull
+    private String[] inventory;
+
+    private InventoryDto inventoryDtoByColorOrSize;
+
     // file
     @NotNull
-    MultipartFile fileMainImage;
+    private MultipartFile fileMainImage;
+
     @NotNull
-    MultipartFile[] multiFileImage;
+    private MultipartFile[] multiFileImage;
+
+    @NotNull
+    private MultipartFile[] colorList;
+
+
 }

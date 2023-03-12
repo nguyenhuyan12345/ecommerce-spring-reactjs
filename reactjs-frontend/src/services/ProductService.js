@@ -1,22 +1,48 @@
 import axios from 'axios';
+import { data } from 'jquery';
 import { API_BASE_URL } from '~/constants/api';
 
 class ProductService {
     async upLoadProduct(values, accessToken, tokenType) {
         const data = new FormData();
+        console.log(values);
+        const { category, title, price, discount, description, fileMainImage, brand, multiFileImage, poductColorList } =
+            values;
 
-        for (var key in values) {
-            if (Array.isArray(values[key])) {
-                switch (key) {
-                    case 'multiFileImage':
-                        values[key].forEach((imgFlie) => {
-                            data.append('multiFileImage', imgFlie);
-                        });
-                }
-            } else {
-                data.append(key, values[key]);
-            }
-        }
+        const newProductColorList = poductColorList.map((productColor) => {
+            const { colorName, inventory } = productColor;
+            return {
+                colorName,
+                inventory
+            };
+        });
+
+        const imageProductColors = poductColorList.map((productColor) => {
+            const { file } = productColor;
+            return file;
+        });
+
+        const newValues = {
+            category,
+            title,
+            price,
+            discount,
+            description,
+            brand,
+            newProductColorList
+        };
+
+        const json = JSON.stringify(newValues);
+        data.append('json', json);
+        data.append('fileMainImage', fileMainImage);
+
+        multiFileImage.forEach((imgFlie) => {
+            data.append('multiFileImage', imgFlie);
+        });
+
+        imageProductColors.forEach((imgFlie) => {
+            data.append('imageProductColors', imgFlie);
+        });
 
         try {
             const responseData = await axios
@@ -64,7 +90,8 @@ class ProductService {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-new', {
                 params: {
-                    limit: 12
+                    page: 0,
+                    perPage: 5
                 }
             });
             return res.data;
@@ -77,7 +104,8 @@ class ProductService {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-order', {
                 params: {
-                    limit: 12
+                    page: 0,
+                    perPage: 5
                 }
             });
             return res.data;
@@ -90,7 +118,8 @@ class ProductService {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-coat', {
                 params: {
-                    limit: 12
+                    page: 0,
+                    perPage: 5
                 }
             });
             return res.data;

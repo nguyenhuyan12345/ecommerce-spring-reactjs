@@ -59,8 +59,4 @@ public class Product {
 //    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
     List<OrderDetails> orderDetails;
-
-    private Long sumNum;
-
-    private Long sumNumOrder;
 }

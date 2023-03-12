@@ -1,11 +1,11 @@
 import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { useState } from 'react';
-import { MyAccountInfo } from '~/constants/routes';
 import UserService from '~/services/UserService';
 import { API_RESOURCES_URL } from '~/constants/api';
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
 import { Link } from 'react-router-dom';
+import { MyAccountInfo, MySole, MyBought, MyAddProduct, MyListProducts, MyZocoin } from '~/constants/routes';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from '~/redux-toolkit/slice/auth/auth';
@@ -18,6 +18,31 @@ const popover = (handleClick) => (
             <li className={cx('accMenuItem')}>
                 <Link className={cx('accMenuLink')} to={MyAccountInfo}>
                     Tài khoản của tôi
+                </Link>
+            </li>
+            <li className={cx('accMenuItem')}>
+                <Link className={cx('accMenuLink')} to={MySole}>
+                    Đã bán
+                </Link>
+            </li>
+            <li className={cx('accMenuItem')}>
+                <Link className={cx('accMenuLink')} to={MyBought}>
+                    Đã mua
+                </Link>
+            </li>
+            <li className={cx('accMenuItem')}>
+                <Link className={cx('accMenuLink')} to={MyAddProduct}>
+                    Thêm sản phẩm mới
+                </Link>
+            </li>
+            <li className={cx('accMenuItem')}>
+                <Link className={cx('accMenuLink')} to={MyListProducts}>
+                    Danh sách sản phẩm
+                </Link>
+            </li>
+            <li className={cx('accMenuItem')}>
+                <Link className={cx('accMenuLink')} to={MyZocoin}>
+                    Zocoin
                 </Link>
             </li>
             <li className={cx('accMenuItem')}>

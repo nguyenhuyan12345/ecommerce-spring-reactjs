@@ -15,13 +15,13 @@ function SubLayout1({ children }) {
             <Container fluid={'lg'}>
                 <div className="main">
                     <Row>
-                        <Col xs={3}>
+                        {/* <Col xs={3}>
                             <SideBar2 />
                         </Col>
                         <Col xs={9}>
-                            {/*Dữ liệu sản phẩm vào */}
                             <div>{children}</div>
-                        </Col>
+                        </Col> */}
+                        {children}
                     </Row>
                 </div>
             </Container>

@@ -5,28 +5,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "order_details", schema = "sale_site_1", catalog = "")
-public class OrderDetails {
+@AllArgsConstructor
+@Entity
+public class Inventory {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Basic
-    @Column(name = "order_id")
-    private Long orderId;
-    @Basic
     @Column(name = "product_id")
-    private Long productId;
+    private Long productID;
     @Basic
-    @Column(name = "price")
-    private Long price;
+    @Column(name = "product_color_id")
+    private Integer productColorId;
     @Basic
     @Column(name = "num")
     private Long num;
+    @Basic
+    @Column(name = "size")
+    private String size;
 }

@@ -28,8 +28,8 @@ function HomePage() {
             <ImageSlider topsSliderImg={topsSliderImg}></ImageSlider>
             <Policy />
             <Products title="hàng mới về" products={topNewProducts}></Products>
-            <Products title="Top bán chạy" products={topOrderProducts}></Products>
-            <Products title="Top áo khoác" products={topCoatProducts}></Products>
+            {/* <Products title="Top bán chạy" products={topOrderProducts}></Products>
+            <Products title="Top áo khoác" products={topCoatProducts}></Products> */}
             <Policy />
         </Container>
     );
