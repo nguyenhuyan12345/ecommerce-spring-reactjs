@@ -12,10 +12,11 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductColorDto {
-    @JsonProperty("colorName")
-    private String colorName;
-    @JsonProperty("inventory")
-    ArrayList<InventoryDto> inventories;
+    String file;
 
-    MultipartFile file;
+    private String colorName;
+
+    ArrayList<InventoryDto> inventory;
+
+
 }

@@ -44,8 +44,8 @@ import {
 
 const publicRoutes = [
     { path: HomePath, component: HomePage },
-    { path: ProductPath, component: NewProductPage, layout: SubLayout1 },
-    { path: NewProductPath, component: ProductPage, layout: SubLayout1 },
+    { path: ProductPath, component: ProductPage, layout: SubLayout1 },
+    { path: NewProductPath, component: NewProductPage, layout: SubLayout1 },
     { path: SellingPath, component: SellingPage, layout: SubLayout1 },
     { path: SalePath, component: SalePage, layout: SubLayout1 },
     { path: BlogPath, component: BlogPage },

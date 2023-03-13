@@ -13,24 +13,21 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class RegisterRequest {
     private Long id;
-//    @NotBlank
+
     private String fullName;
-//    @NotBlank
+
     private String email;
-//    @NotBlank
+
     private String phoneNumber;
-//    @NotBlank
+
     private String address;
-//    @NotBlank
+
     private String password;
-//    @NotBlank
+
     private String rePassword;
-//    @NotBlank
+
     private String role;
-//    @NotNull
-    private MultipartFile avatarImage;
 
     private String avatar;
-
 
 }

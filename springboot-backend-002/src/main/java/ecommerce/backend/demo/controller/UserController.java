@@ -88,8 +88,8 @@ public class UserController {
         return  userDetailResponse;
     }
 
-    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> registerUser( @Valid RegisterRequest registerRequest) {
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> registerUser( @RequestBody RegisterRequest registerRequest) {
 
         RegisterRequest registerRequestEncodePassword = registerRequest;
         registerRequestEncodePassword.setPassword(encoder.encode(registerRequest.getPassword()));
@@ -103,7 +103,6 @@ public class UserController {
 
         // Create new User
         String message = userService.saveUser(registerRequestEncodePassword);
-        System.out.println(message);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

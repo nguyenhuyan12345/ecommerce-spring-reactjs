@@ -24,7 +24,7 @@ function ImageProducts({ product }) {
 
     return (
         <Swiper {...params_2}>
-            {colorImages.map((colorImage, index) => {
+            {product.colorImages.map((colorImage, index) => {
                 return (
                     <SwiperSlide onMouseOver={handleNext} onMouseOut={handlePrev} key={index}>
                         <img

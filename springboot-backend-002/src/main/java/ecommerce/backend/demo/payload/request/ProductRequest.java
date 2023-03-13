@@ -1,6 +1,7 @@
 package ecommerce.backend.demo.payload.request;
 
 import ecommerce.backend.demo.payload.dto.InventoryDto;
+import ecommerce.backend.demo.payload.dto.ProductColorDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,28 +29,16 @@ public class ProductRequest {
 
     private String mainImage;
 
-    private String multiImage;
-
     @NotBlank
     private String brand;
 
-    @NotNull
-    private String[] colorName;
+    @NotBlank
+    private List<String> multiImage;
 
-    @NotNull
-    private String[] inventory;
 
-    private InventoryDto inventoryDtoByColorOrSize;
+    private List<ProductColorDto> productColorLists;
 
-    // file
-    @NotNull
-    private MultipartFile fileMainImage;
 
-    @NotNull
-    private MultipartFile[] multiFileImage;
-
-    @NotNull
-    private MultipartFile[] colorList;
 
 
 }

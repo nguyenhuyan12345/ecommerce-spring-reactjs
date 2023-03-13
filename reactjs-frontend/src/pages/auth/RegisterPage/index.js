@@ -10,6 +10,8 @@ import UserService from '~/services/UserService';
 import classNames from 'classnames/bind';
 import styles from '../auth.module.scss';
 import * as yup from 'yup';
+import FileService from '~/services/FileService';
+import { API_RESOURCES_URL } from '~/constants/api';
 
 const cx = classNames.bind(styles);
 
@@ -37,19 +39,32 @@ const schema = yup.object({
 const roles = ['Chọn quyền', 'ADMIN', 'USER'];
 
 const RegisterPage = () => {
-    // State
-    const [file, setFile] = useState();
-
     // Handle Funtion
     function handleChangeAvatar(e, setFieldValue) {
-        setFile(URL.createObjectURL(e.target.files[0]));
-        setFieldValue('avatarImage', e.target.files[0]);
+        FileService.upLoadFile(e.target.files[0]).then((data) => {
+            setFieldValue('avatar', data.fileName);
+        });
     }
 
     const handleRegister = (values) => {
-        console.log(values);
-        UserService.createUser(values);
-        // navigator('/login');
+        UserService.createUser(values)
+            .then(() => {
+                navigator('/login');
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    };
+
+    const initialValues = {
+        fullName: '',
+        email: '',
+        password: '',
+        rePassword: '',
+        address: '',
+        phoneNumber: '',
+        role: '',
+        avatar: ''
     };
 
     return (
@@ -61,16 +76,7 @@ const RegisterPage = () => {
                         <br />
                         <div className={cx('authWrapper')}>
                             <Formik
-                                initialValues={{
-                                    fullName: '',
-                                    email: '',
-                                    password: '',
-                                    rePassword: '',
-                                    address: '',
-                                    phoneNumber: '',
-                                    role: '',
-                                    avatarImage: ''
-                                }}
+                                initialValues={initialValues}
                                 validateOnChange
                                 validationSchema={schema}
                                 onSubmit={(values) => {
@@ -254,16 +260,21 @@ const RegisterPage = () => {
                                                     <span className="h5">{errors.fileMainImage}</span>
                                                 </Form.Text>
                                             </Row>
-                                            <Row className="mb-3">
-                                                <Col xs={4}>
-                                                    <img className={cx('imageUpload')} src={file} />
-                                                </Col>
-                                            </Row>
+                                            {values.avatar != '' ? (
+                                                <Row className="mb-3">
+                                                    <Col xs={4}>
+                                                        <img
+                                                            className={cx('imageUpload')}
+                                                            src={API_RESOURCES_URL + '/' + values.avatar}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                            ) : undefined}
                                             <Row className="mb-4 mt-5">
                                                 <Col xs></Col>
                                                 <Col xs>
                                                     <button
-                                                        className={`button buttonMedium buttonPrimaryColor`}
+                                                        className={`button buttonMedium buttonPrimaryColor h4`}
                                                         type="submit"
                                                         size="lg"
                                                         style={{ width: '100%' }}

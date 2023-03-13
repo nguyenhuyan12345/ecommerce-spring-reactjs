@@ -1,29 +1,19 @@
 import { useRef, useState } from 'react';
-
 import { Container, Row, Col } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
-// import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
-
 import { ImageProducts } from '~/components/Products/components';
-
 import classNames from 'classnames/bind';
 import styles from './SubProducts.module.scss';
 
 const cx = classNames.bind(styles);
 
 function SubProducts({ products }) {
-    // list: danh sach san pham
-    // isLoading: trang thai loading
-    // hasError: trang thai loi
-    // status: trang thai
-    const { list, isLoading, hasError, status } = products;
+    const { list } = products;
 
     const swiperRef = useRef();
     const [visible, setVisible] = useState(false);
@@ -54,7 +44,6 @@ function SubProducts({ products }) {
     };
 
     return (
-        // <h1>Trang san pham con</h1>
         <Container fluid="md" className={`${cx('product')} `}>
             <div>
                 <Row onMouseOver={handleShow} onMouseOut={handleHide}>
@@ -71,7 +60,7 @@ function SubProducts({ products }) {
                                         {product.description.toLocaleUpperCase()}
                                     </Card.Title>
                                     <Card.Text className={cx('productDescription')}>
-                                        {product.sumNumOrder ? `(${product.sumNumOrder} đã bán)` : `(0 đã bán)`}
+                                        {product.sumOrder ? `(${product.sumOrder} đã bán)` : `(0 đã bán)`}
                                     </Card.Text>
                                     <Card.Text className={cx('productCost')}>
                                         <span>

@@ -58,13 +58,6 @@ public class UserService implements UserDetailsService {
     public String saveUser(RegisterRequest registerRequest) {
         User user = new User();
 
-//        Save avata image
-        try {
-            registerRequest.setAvatar(FileUtils.saveFileFromMultiPartFile(registerRequest.getAvatarImage()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         BeanUtils.copyProperties(registerRequest, user);
         if (registerRequest.getId() == null) {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());

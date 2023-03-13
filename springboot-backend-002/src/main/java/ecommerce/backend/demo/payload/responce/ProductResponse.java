@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TopNewProductResponse {
+public class ProductResponse {
     private Long id;
     private Long price;
     private Long discount;
@@ -17,14 +17,14 @@ public class TopNewProductResponse {
     private Long sumOrder;
     private List<ProductColorResponse> colorImages;
 
-    public TopNewProductResponse(Long id, Long price, Long discount, String description) {
+    public ProductResponse(Long id, Long price, Long discount, String description) {
         this.id = id;
         this.price = price;
         this.discount = discount;
         this.description = description;
     }
 
-    public TopNewProductResponse(Long id, Long price, Long discount, String description, Long sumOrder) {
+    public ProductResponse(Long id, Long price, Long discount, String description, Long sumOrder) {
         this.id = id;
         this.price = price;
         this.discount = discount;

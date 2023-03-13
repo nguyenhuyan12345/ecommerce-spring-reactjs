@@ -11,14 +11,14 @@ function ProductPage() {
 
     // side Effect
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getProducts({ page: 0, perPage: 12 }));
     }, [dispatch]);
 
     return (
         <>
             <TopImage />
             <TopSort />
-            {products.list && products.list.length != 0 ? <Main products={products} /> : <WaitLoading />}
+            {products.list && products.list.length !== 0 ? <Main products={products} /> : <WaitLoading />}
             <Policy />
         </>
     );

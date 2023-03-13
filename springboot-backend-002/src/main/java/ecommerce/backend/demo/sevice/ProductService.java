@@ -3,25 +3,20 @@ package ecommerce.backend.demo.sevice;
 import ecommerce.backend.demo.entities.*;
 import ecommerce.backend.demo.payload.dto.InventoryDto;
 import ecommerce.backend.demo.payload.dto.ProductColorDto;
-import ecommerce.backend.demo.payload.request.ProductRequestMapper;
+import ecommerce.backend.demo.payload.request.ProductRequest;
 import ecommerce.backend.demo.payload.responce.ProductColorResponse;
 import ecommerce.backend.demo.payload.responce.ProductSaveResponse;
-import ecommerce.backend.demo.payload.responce.TopNewProductResponse;
+import ecommerce.backend.demo.payload.responce.ProductResponse;
 import ecommerce.backend.demo.repository.*;
-import ecommerce.backend.demo.ultils.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -45,18 +40,11 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public List<Product> findAll(int page, int perPage) {
-        List<Product> listProduct = new ArrayList<>();
-        Page<?> pageAll = productRepository.findAll(PageRequest.of(page, perPage));
-        listProduct = (List<Product>) pageAll.getContent();
-        return listProduct;
-    }
-
-    public List<TopNewProductResponse> findTopNew(Integer page, Integer perPage) {
-        List<TopNewProductResponse> products = new ArrayList<>();
-        Page<?> pageAll = productRepository.findTopNew(PageRequest.of(page, perPage));
-        products = (List<TopNewProductResponse>) pageAll.getContent();
-        for (TopNewProductResponse p : products) {
+    public List<ProductResponse> findAll(int page, int perPage) {
+        List<ProductResponse> products = new ArrayList<>();
+        Page<?> pageAll = productRepository.findAllProductRes(PageRequest.of(page, perPage));
+        products = (List<ProductResponse>) pageAll.getContent();
+        for (ProductResponse p : products) {
             Long id = p.getId();
             List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
             p.setColorImages(colorImages);
@@ -64,49 +52,51 @@ public class ProductService {
         return products;
     }
 
-    public List<Product> findTopOrder(Integer limit) {
-        List<Product> products = new ArrayList<>();
-        products = productRepository.findTopOrderProducts(limit);
-        return products;
-    }
-
-    public List<Product> findTopCoat(Integer limit) {
-        List<Product> products = new ArrayList<>();
-        products = productRepository.findTopCoatProducts(limit);
-/*        for (Product p : products) {
-            long sumNumOrder = 0;
-            for (OrderDetails o : p.getOrderDetails()) {
-                sumNumOrder += o.getNum();
-            }
-            p.setSumNumOrder(sumNumOrder);
-        }*/
-        return products;
-    }
-
-    public List<Product> findNewProduct(Integer page, Integer perPage) {
-        List<Product> newProducts = new ArrayList<>();
-        Page<?> pageAll = productRepository.findAll(PageRequest.of(page, perPage, Sort.by(Sort.Direction.DESC, "createAt")));
-        newProducts = (List<Product>) pageAll.getContent();
-/*        for (Product p : newProducts) {
-            long sumNumOrder = 0;
-            for (OrderDetails o : p.getOrderDetails()) {
-                sumNumOrder += o.getNum();
-            }
-            p.setSumNumOrder(sumNumOrder);
-        }*/
-        return newProducts;
-    }
-
-    public List<Product> findTopSellingProducts(Integer page, Integer prePage) {
-        List<Product> products = new ArrayList<>();
-        try {
-            Page<?> page1 = orderDetailsRepository.findTopSumNum(PageRequest.of(page, prePage));
-            System.out.println(page1.getContent());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e);
+    public List<ProductResponse> findTopNew(Integer page, Integer perPage) {
+        List<ProductResponse> products = new ArrayList<>();
+        Page<?> pageAll = productRepository.findTopNew(PageRequest.of(page, perPage));
+        products = (List<ProductResponse>) pageAll.getContent();
+        for (ProductResponse p : products) {
+            Long id = p.getId();
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            p.setColorImages(colorImages);
         }
+        return products;
+    }
 
+    public List<ProductResponse> findTopOrder(Integer page, Integer perPage) {
+        List<ProductResponse> products = new ArrayList<>();
+        Page<?> pageAll = productRepository.findTopOrderProducts(PageRequest.of(page, perPage));
+        products = (List<ProductResponse>) pageAll.getContent();
+        for (ProductResponse p : products) {
+            Long id = p.getId();
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            p.setColorImages(colorImages);
+        }
+        return products;
+    }
+
+    public List<ProductResponse> findTopCoat(Integer page, Integer perPage) {
+        List<ProductResponse> products = new ArrayList<>();
+        Page<?> pageAll = productRepository.findTopCoatProducts(PageRequest.of(page, perPage));
+        products = (List<ProductResponse>) pageAll.getContent();
+        for (ProductResponse p : products) {
+            Long id = p.getId();
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            p.setColorImages(colorImages);
+        }
+        return products;
+    }
+
+    public List<ProductResponse> fineTopSale(Integer page, Integer perPage) {
+        List<ProductResponse> products = new ArrayList<>();
+        Page<?> pageAll = productRepository.findTopSaleProducts(PageRequest.of(page, perPage));
+        products = (List<ProductResponse>) pageAll.getContent();
+        for (ProductResponse p : products) {
+            Long id = p.getId();
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            p.setColorImages(colorImages);
+        }
         return products;
     }
 
@@ -117,18 +107,11 @@ public class ProductService {
     }
 
 
-    public ProductSaveResponse save(ProductRequestMapper productRequest, Long useId) throws IOException {
+    public ProductSaveResponse save(ProductRequest productRequest, Long useId) {
 
         // Kiểm tra sản phẩm đã tồn tại chưa
         if (productRepository.findProductByTitle(productRequest.getTitle()) == null) {
             Product product = new Product();
-
-            // Save Main Image
-            try {
-                productRequest.setMainImage(FileUtils.saveFileFromMultiPartFile(productRequest.getFileMainImage()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             // Coppy properties
             BeanUtils.copyProperties(productRequest, product);
@@ -148,44 +131,24 @@ public class ProductService {
             // Get Id
             Long productId = product.getId();
 
-            // Lưu multiImage
-            try {
-                List<String> fileNames = new ArrayList<>();
-                MultipartFile[] files = productRequest.getMultiFileImage();
-
-                Arrays.asList(files).stream().forEach(file -> {
-                    try {
-                        fileNames.add(FileUtils.saveFileFromMultiPartFile(file));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                // Lưu toàn bộ đường dẫn file
-                for (String fileName : fileNames) {
-                    Gallery gallery = new Gallery();
-                    gallery.setProductId(productId);
-                    gallery.setThumbnail(fileName);
-                    galleryRepository.save(gallery);
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            // Lưu toàn bộ đường dẫn file
+            for (String fileName : productRequest.getMultiImage()) {
+                Gallery gallery = new Gallery();
+                gallery.setProductId(productId);
+                gallery.setThumbnail(fileName);
+                galleryRepository.save(gallery);
             }
 
             // Lưu màu ảnh mô tả màu và tồn kho từng màu
-            List<ProductColorDto> list = productRequest.getProductColorDtoList();
-            for (ProductColorDto productColorDto : list) {
+            for (ProductColorDto productColorDto : productRequest.getProductColorLists()) {
                 ProductColor productColor = new ProductColor();
-                productColor.setImage(FileUtils.saveFileFromMultiPartFile(productColorDto.getFile()));
+                productColor.setImage(productColorDto.getFile());
                 productColor.setProductColor(productColorDto.getColorName());
                 productColor.setProductId(productId);
                 productColorRepository.save(productColor);
                 Long productColorId = productColor.getId();
 
-                ArrayList<InventoryDto> list1 = productColorDto.getInventories();
-                for (InventoryDto inventoryDto : list1) {
+                for (InventoryDto inventoryDto : productColorDto.getInventory()) {
                     Inventory inventory = new Inventory();
                     inventory.setProductColorId(Math.toIntExact(productColorId));
                     inventory.setNum(inventoryDto.getNumber());
@@ -200,4 +163,6 @@ public class ProductService {
             return new ProductSaveResponse("Sản phẩm đã tồn tại", false);
         }
     }
+
+
 }

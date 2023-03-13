@@ -1,59 +1,17 @@
 import axios from 'axios';
-import { data } from 'jquery';
 import { API_BASE_URL } from '~/constants/api';
 
 class ProductService {
     async upLoadProduct(values, accessToken, tokenType) {
-        const data = new FormData();
-        console.log(values);
-        const { category, title, price, discount, description, fileMainImage, brand, multiFileImage, poductColorList } =
-            values;
-
-        const newProductColorList = poductColorList.map((productColor) => {
-            const { colorName, inventory } = productColor;
-            return {
-                colorName,
-                inventory
-            };
-        });
-
-        const imageProductColors = poductColorList.map((productColor) => {
-            const { file } = productColor;
-            return file;
-        });
-
-        const newValues = {
-            category,
-            title,
-            price,
-            discount,
-            description,
-            brand,
-            newProductColorList
-        };
-
-        const json = JSON.stringify(newValues);
-        data.append('json', json);
-        data.append('fileMainImage', fileMainImage);
-
-        multiFileImage.forEach((imgFlie) => {
-            data.append('multiFileImage', imgFlie);
-        });
-
-        imageProductColors.forEach((imgFlie) => {
-            data.append('imageProductColors', imgFlie);
-        });
-
         try {
             const responseData = await axios
-                .post(API_BASE_URL + '/products/add', data, {
+                .post(API_BASE_URL + '/products/add', JSON.stringify(values), {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
+                        'Content-Type': 'application/json',
                         Authorization: tokenType + ' ' + accessToken
                     }
                 })
                 .then((response) => {
-                    console.log(response);
                     return response.data;
                 });
             return responseData;
@@ -71,12 +29,12 @@ class ProductService {
         }
     }
 
-    async getProduct() {
+    async getProduct(data) {
         try {
             const res = await axios.get(API_BASE_URL + `/products/list/page`, {
                 params: {
-                    page: 0,
-                    perPage: 10
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res;
@@ -86,12 +44,12 @@ class ProductService {
     }
 
     // Home Page Call API
-    async getTopNewProducts() {
+    async getTopNewProducts(data) {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-new', {
                 params: {
-                    page: 0,
-                    perPage: 5
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res.data;
@@ -100,12 +58,12 @@ class ProductService {
         }
     }
 
-    async getTopOrderProducts() {
+    async getTopOrderProducts(data) {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-order', {
                 params: {
-                    page: 0,
-                    perPage: 5
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res.data;
@@ -114,12 +72,12 @@ class ProductService {
         }
     }
 
-    async getTopCoatProducts() {
+    async getTopCoatProducts(data) {
         try {
             const res = await axios.get(API_BASE_URL + '/products/list/top-coat', {
                 params: {
-                    page: 0,
-                    perPage: 5
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res.data;
@@ -129,12 +87,12 @@ class ProductService {
     }
 
     // New Product Page Call API
-    async getNewProducts() {
+    async getNewProducts(data) {
         try {
-            const res = await axios.get(API_BASE_URL + '/products/list/new-products', {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-new', {
                 params: {
-                    page: 0,
-                    perPage: 20
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res.data;
@@ -144,12 +102,12 @@ class ProductService {
     }
 
     // Product Page Call API
-    async getProducts() {
+    async getProducts(data) {
         try {
-            const res = await axios.get(API_BASE_URL + '/products/list/products', {
+            const res = await axios.get(API_BASE_URL + '/products/list', {
                 params: {
-                    page: 0,
-                    perPage: 20
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res.data;
@@ -159,12 +117,27 @@ class ProductService {
     }
 
     // Top Selling Page Call API
-    async getTopSellingProducts() {
+    async getTopSellingProducts(data) {
         try {
-            const res = await axios.get(API_BASE_URL + '/products/list/top-selling', {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-order', {
                 params: {
-                    page: 0,
-                    perPage: 20
+                    page: data.page,
+                    perPage: data.perPage
+                }
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    // Top Sale Page Call API
+    async getTopSaleProduct(data) {
+        try {
+            const res = await axios.get(API_BASE_URL + '/products/list/top-sale', {
+                params: {
+                    page: data.page,
+                    perPage: data.perPage
                 }
             });
             return res.data;

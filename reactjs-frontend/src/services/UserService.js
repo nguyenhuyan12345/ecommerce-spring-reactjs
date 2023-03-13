@@ -9,9 +9,9 @@ class UserService {
     async createUser(user) {
         // console.log('payload', JSON.stringify(user));
         try {
-            const response = await axios.post(API_BASE_URL + '/register', user, {
+            const response = await axios.post(API_BASE_URL + '/register', JSON.stringify(user), {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             });
             console.log(response);

@@ -1,24 +1,20 @@
 import { useRef, useState } from 'react';
-
 import { Container, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
-
 import { ImageProducts, Prev, Next } from './components';
-
+import WaitLoading from '../WaitLoading';
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Products({ title = 'HÀNG MỚI VỀ', products }) {
+function Products({ title, products, handleClickViewMore }) {
     const { list, isLoading, hasError, status } = products;
 
     const swiperRef = useRef();
@@ -98,22 +94,16 @@ function Products({ title = 'HÀNG MỚI VỀ', products }) {
                         </Swiper>
                     </Row>
                     <Row className={cx('viewMore')}>
-                        <button className={cx('btnViewMore')}>XEM THEM</button>
+                        <button className={cx('btnViewMore')} onClick={handleClickViewMore}>
+                            XEM THEM
+                        </button>
                     </Row>
                 </div>
             </Container>
         );
     };
 
-    const loading = () => {
-        return (
-            <div>
-                <h1>Đang tải sản phẩm</h1>
-            </div>
-        );
-    };
-
-    return list ? render(list) : loading();
+    return list ? render(list) : <WaitLoading />;
 }
 
 export default Products;

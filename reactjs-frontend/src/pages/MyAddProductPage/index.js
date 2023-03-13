@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import { faImage, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import ColorInput from './colorInput';
+import { API_RESOURCES_URL } from '~/constants/api';
+import FileService from '~/services/FileService';
 
 const cx = classNames.bind(styles);
 
@@ -25,10 +27,10 @@ const schema = yup.object().shape({
         .min(0, '% Giảm giá phải lớn hơn 0% và nhỏ hơn 100%')
         .max(100, '% Giảm giá phải lớn hơn 0% và nhỏ hơn 100%'),
     description: yup.string().required('Bạn chưa nhập mô tả sản phẩm'),
-    fileMainImage: yup.string().required('Bạn chưa nhập hình ảnh chính của sản phẩm'),
-    multiFileImage: yup.array().required('Bạn chưa nhập hình ảnh mô tả thêm cho sản phẩm'),
+    mainImage: yup.string().required('Bạn chưa nhập hình ảnh chính của sản phẩm'),
+    multiImage: yup.array().required('Bạn chưa nhập hình ảnh mô tả thêm cho sản phẩm'),
     brand: yup.string().required('Bạn chưa nhập thương hiệu'),
-    poductColorList: yup.array().of(
+    productColorLists: yup.array().of(
         yup.object().shape({
             file: yup.string().required('Chưa nhập ảnh'),
             colorName: yup.string().required('Chưa nhập màu'),
@@ -43,8 +45,6 @@ const schema = yup.object().shape({
 
 function MyAddProductPage() {
     // State
-    const [file, setFile] = useState();
-    const [multiFile, setMultiFile] = useState([]);
     const [saveState, setSaveState] = useState({});
 
     //Redux state
@@ -53,15 +53,17 @@ function MyAddProductPage() {
 
     // Handle Funtion
     function handleChangeImg(e, setFieldValue) {
-        setFile(URL.createObjectURL(e.target.files[0]));
-        setFieldValue('fileMainImage', e.target.files[0]);
+        const file = e.target.files[0];
+        FileService.upLoadFile(file).then((data) => {
+            setFieldValue('mainImage', data.fileName);
+        });
     }
 
     function handleChangeMultiImg(e, setFieldValue) {
-        const multiImgFile = Object.values(e.target.files);
-        setMultiFile(multiImgFile.map((file) => URL.createObjectURL(file)));
-        const multiFile = Object.values(e.target.files);
-        setFieldValue('multiFileImage', multiFile);
+        const multiImage = Object.values(e.target.files);
+        FileService.upLoadMultiFile(multiImage).then((data) => {
+            setFieldValue('multiImage', data.fileNames);
+        });
     }
 
     function handleSubmitForm(values) {
@@ -85,7 +87,7 @@ function MyAddProductPage() {
     }
 
     const handleAddProductColor = (values, setFieldValue) => {
-        const newColorList = values.poductColorList;
+        const newColorList = values.productColorLists;
         const newColor = {
             file: '',
             colorName: '',
@@ -98,12 +100,11 @@ function MyAddProductPage() {
             ]
         };
         const newProductColorList = [...newColorList, newColor];
-        setFieldValue('poductColorList', newProductColorList);
+        setFieldValue('productColorLists', newProductColorList);
     };
 
     const handleRemoveMainImage = (setFieldValue) => {
-        setFile('');
-        setFieldValue('fileMainImage', '');
+        setFieldValue('mainImage', '');
     };
 
     // Category
@@ -129,10 +130,10 @@ function MyAddProductPage() {
         price: '150000',
         discount: '10',
         description: 'ÁO KHOÁC KAKI NAM LÓT DÙ PHỐI BO CAO CẤP ZONADO ZPAKK68 (5 MÀU)',
-        fileMainImage: '',
-        multiFileImage: '',
+        mainImage: '',
+        multiImage: '',
         brand: 'Zonado',
-        poductColorList: []
+        productColorLists: []
     };
 
     return (
@@ -160,10 +161,10 @@ function MyAddProductPage() {
                                             >
                                                 <FontAwesomeIcon className={cx('plussIcon')} icon={faImage} />
                                             </div>
-                                            {file != '' && file ? (
+                                            {values.mainImage != '' ? (
                                                 <img
                                                     className={`position-absolute ${cx('colorIamge')}`}
-                                                    src={file}
+                                                    src={API_RESOURCES_URL + '/' + values.mainImage}
                                                     alt=""
                                                 ></img>
                                             ) : undefined}
@@ -194,7 +195,7 @@ function MyAddProductPage() {
                                     </div>
                                 </Col>
                                 <Form.Text className="text-danger">
-                                    <span className="h5">{errors.fileMainImage}</span>
+                                    <span className="h5">{errors.mainImage}</span>
                                 </Form.Text>
                             </Row>
                         </Col>
@@ -346,29 +347,35 @@ function MyAddProductPage() {
                                         handleChangeMultiImg(e, setFieldValue);
                                     }}
                                     onBlur={handleBlur}
-                                    isValid={!errors.multiFileImage}
+                                    isValid={!errors.multiImage}
                                     className="mb-2"
                                 />
                                 <Form.Text className="text-danger">
-                                    <span className="h5">{errors.multiFileImage}</span>
+                                    <span className="h5">{errors.multiImage}</span>
                                 </Form.Text>
                             </Form.Group>
                         </Col>
                     </Row>
                     <Row className="mb-5">
-                        {multiFile.map((fileUrl, index) => {
-                            return (
-                                <Col xs={2} key={index}>
-                                    <img className={cx('imageUpload')} src={fileUrl} alt="Ảnh phụ" />
-                                </Col>
-                            );
-                        })}
+                        {values.multiImage
+                            ? values.multiImage.map((image, index) => {
+                                  return (
+                                      <Col xs={3} key={index}>
+                                          <img
+                                              className={cx('imageUpload')}
+                                              src={API_RESOURCES_URL + '/' + image}
+                                              alt="Ảnh phụ"
+                                          />
+                                      </Col>
+                                  );
+                              })
+                            : undefined}
                     </Row>
 
                     {/* Product Color */}
                     <Row className="mb-4">
                         <Form.Label className="h4">Thêm chi tiết màu sản phẩm</Form.Label>
-                        {values.poductColorList.map((poductColor, index) => {
+                        {values.productColorLists.map((poductColor, index) => {
                             return (
                                 <Col key={index} xs={3} className={`position-relative ${cx('colorIamgeContaniner')}`}>
                                     <ColorInput
@@ -406,13 +413,7 @@ function MyAddProductPage() {
 
                     <Row className="mb-4">
                         <Col>
-                            <Button
-                                type="submit"
-                                size="lg"
-                                onClick={() => {
-                                    console.log(errors.poductColorList);
-                                }}
-                            >
+                            <Button type="submit" size="lg">
                                 Thêm sản phẩm
                             </Button>
                         </Col>

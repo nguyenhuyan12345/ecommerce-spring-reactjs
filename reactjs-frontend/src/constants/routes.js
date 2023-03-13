@@ -1,6 +1,6 @@
 export const HomePath = '/';
-export const ProductPath = '/new-products';
-export const NewProductPath = '/products';
+export const NewProductPath = '/new-products';
+export const ProductPath = '/products';
 export const SellingPath = '/selling';
 export const SalePath = '/sale';
 export const BlogPath = '/blog';

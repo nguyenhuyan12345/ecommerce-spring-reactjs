@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InventoryDto {
-    @JsonProperty("size")
     private String size;
-    @JsonProperty("number")
     private Long number;
 }

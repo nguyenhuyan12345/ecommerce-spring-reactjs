@@ -14,28 +14,23 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequestMapper {
-
     private Long id;
-    @JsonProperty("title")
+
     private String title;
-    @JsonProperty("category")
+
     private String category;
-    @JsonProperty("price")
+
     private Long price;
-    @JsonProperty("discount")
+
     private Long discount;
-    @JsonProperty("description")
+
     private String description;
-    @JsonProperty("brand")
+
     private String brand;
-    @JsonProperty("newProductColorList")
-    ArrayList<ProductColorDto> productColorDtoList;
 
     private String mainImage;
 
     private String multiImage;
 
-    private MultipartFile fileMainImage;
-
-    private MultipartFile[] multiFileImage;
+    ArrayList<ProductColorDto> productColorDtoList;
 }

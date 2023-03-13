@@ -10,14 +10,14 @@ function NewProductPage() {
     const dispatch = useDispatch(getNewProducts);
 
     useEffect(() => {
-        dispatch(getNewProducts(0, 10));
+        dispatch(getNewProducts({ page: 0, perPage: 12 }));
     }, [dispatch]);
 
     return (
         <>
             <TopImage />
             <TopSort />
-            {newProducts.list && newProducts.list.length != 0 ? <Main products={newProducts} /> : <WaitLoading />}
+            {newProducts.list && newProducts.list.length !== 0 ? <Main products={newProducts} /> : <WaitLoading />}
             <Policy className="mt-5" />
         </>
     );

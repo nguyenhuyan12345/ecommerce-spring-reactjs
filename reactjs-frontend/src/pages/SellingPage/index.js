@@ -7,19 +7,21 @@ import { getSellingProducts } from '~/redux-toolkit/slice/sellingProductPage/sel
 function SellingPage() {
     // Redux state
     const sellingProducts = useSelector((state) => state.sellingProducts);
-    console.log(sellingProducts);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getSellingProducts());
+        dispatch(getSellingProducts({ page: 0, perPage: 12 }));
     }, [dispatch]);
 
     return (
         <>
             <TopImage />
             <TopSort />
-            <WaitLoading />
-            {/* {products.list && products.list.length != 0 ? <Main products={products} /> : <WaitLoading />} */}
+            {sellingProducts.list && sellingProducts.list.length !== 0 ? (
+                <Main products={sellingProducts} />
+            ) : (
+                <WaitLoading />
+            )}
             <Policy />
         </>
     );
