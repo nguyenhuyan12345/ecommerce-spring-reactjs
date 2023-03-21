@@ -9,6 +9,7 @@ export const LoginPath = '/login';
 export const RegisterPath = '/register';
 export const SearchPath = '/search';
 export const ForgotPasswordPath = '/fogotpassword';
+export const ProductDetail = '/product-detail/:productId';
 
 // Trang thông tin tài khoản
 export const MyAccountInfo = '/my-account/info';
@@ -17,3 +18,5 @@ export const MyBought = '/my-account/bought';
 export const MyAddProduct = '/my-account/add-product';
 export const MyListProducts = '/my-account/list-products';
 export const MyZocoin = '/my-account/zonado-coin';
+
+export const RegistrationConfirm = '/registrationConfirm/:token';

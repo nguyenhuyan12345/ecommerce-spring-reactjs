@@ -11,6 +11,7 @@ import newProducts from './slice/newProductPage/newProductPage';
 import products from './slice/productPage/productPage';
 import sellingProducts from './slice/sellingProductPage/sellingProductPage';
 import topSaleProduct from './slice/salePage/salePage';
+import detailProductPage from './slice/detailProductPage/detailProductPage';
 
 // Import persist
 import storage from 'redux-persist/lib/storage';
@@ -36,7 +37,8 @@ export const store = configureStore({
         newProducts,
         products,
         sellingProducts,
-        topSaleProduct
+        topSaleProduct,
+        detailProductPage
     }
 });
 

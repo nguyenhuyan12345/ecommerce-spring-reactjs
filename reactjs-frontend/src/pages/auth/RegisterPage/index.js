@@ -32,13 +32,14 @@ const schema = yup.object({
         .min(8)
         .required('A phone number is required'),
     role: yup.string().required('Bạn chưa chọn quyền').notOneOf(['Chọn quyền'], 'Banh chưa chon quyền'),
-    avatarImage: yup.string().required('Bạn chưa chọn ảnh đại điện')
+    avatar: yup.string().required('Bạn chưa chọn ảnh đại điện')
 });
 
 // role
 const roles = ['Chọn quyền', 'ADMIN', 'USER'];
 
 const RegisterPage = () => {
+    const navigator = useNavigate();
     // Handle Funtion
     function handleChangeAvatar(e, setFieldValue) {
         FileService.upLoadFile(e.target.files[0]).then((data) => {
@@ -50,6 +51,7 @@ const RegisterPage = () => {
         UserService.createUser(values)
             .then(() => {
                 navigator('/login');
+                console.log('Đăng kí thành công');
             })
             .catch((e) => {
                 console.log(e);
@@ -278,6 +280,9 @@ const RegisterPage = () => {
                                                         type="submit"
                                                         size="lg"
                                                         style={{ width: '100%' }}
+                                                        onClick={() => {
+                                                            console.log(errors);
+                                                        }}
                                                     >
                                                         Đăng kí
                                                     </button>

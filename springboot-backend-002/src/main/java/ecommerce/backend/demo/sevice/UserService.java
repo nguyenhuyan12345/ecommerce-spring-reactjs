@@ -4,13 +4,18 @@ package ecommerce.backend.demo.sevice;
 import ecommerce.backend.demo.entities.CustomUserDetail;
 import ecommerce.backend.demo.entities.User;
 import ecommerce.backend.demo.payload.request.RegisterRequest;
+import ecommerce.backend.demo.payload.responce.MessageResponse;
+import ecommerce.backend.demo.payload.responce.RegisterConfirmResponse;
 import ecommerce.backend.demo.repository.UserRepository;
+import ecommerce.backend.demo.sevice.email.MailService;
 import ecommerce.backend.demo.ultils.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,11 +23,19 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    MailService mailService;
+
+/*    @Autowired
+    BCryptPasswordEncoder encoder;*/
 
     // Phương thức này sẽ được spring security gọi tự động
     @Override
@@ -43,19 +56,34 @@ public class UserService implements UserDetailsService {
         return new CustomUserDetail(user);
     }
 
-    // Phương thức tìm toàn bộ tài khoản
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    // Phương thức kiểm tra tài khoản đã tồn tại hay chưa trả về kiểu Boolean
-    public Boolean checkUserName(String userName) {
-        // Trường hợp này tên đăng nhập là tên địa chỉ email
-        return userRepository.existsByEmail(userName);
+    public ResponseEntity<?> register(RegisterRequest registerRequest) {
+        User user = userRepository.findByEmail(registerRequest.getEmail());
+        if (user != null) {
+            if (Objects.equals(user.getStatus(), 1)) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Tài khoản đã được kích hoạt!"));
+            }
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Tài khoản đã tồn tại vui lòng vào email để kích hoạt tài khoản!"));
+        }
+        return saveUser(registerRequest);
     }
 
+    public User checkUserName(String userName) {
+        return userRepository.findByEmail(userName);
+    }
+
+
     // Lưu tài khoản vào database
-    public String saveUser(RegisterRequest registerRequest) {
+    public ResponseEntity<?> saveUser(RegisterRequest registerRequest) {
+/*        registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));*/
+
         User user = new User();
 
         BeanUtils.copyProperties(registerRequest, user);
@@ -66,9 +94,29 @@ public class UserService implements UserDetailsService {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             user.setUpdateAt(currentTime);
         }
-
+        String token = UUID.randomUUID().toString();
+        user.setStatus(0);
+        user.setToken(token);
+        mailService.sendVerificationToken(user);
         userRepository.save(user);
-        return "Đã lưu tài khoản thành công";
+        return ResponseEntity.ok(new MessageResponse("Đăng kí tài khoản thành công"));
+    }
+
+    public RegisterConfirmResponse registrationConfirm(String token) {
+        User user = userRepository.findFirstByToken(token);
+
+        if (user == null) return new RegisterConfirmResponse(false, "Tài khoản không tồn tại");
+
+        if (Objects.equals(user.getStatus(), 1)) {
+            user.setToken(null);
+            userRepository.save(user);
+            return new RegisterConfirmResponse(false, "Token không hợp lệ");
+        }
+
+        user.setStatus(1);
+        user.setToken(null);
+        userRepository.save(user);
+        return new RegisterConfirmResponse(true, "Kích hoạt tài khoản thành công");
     }
 
 //    Get by Id

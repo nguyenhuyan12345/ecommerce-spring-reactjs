@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Modal } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -7,8 +7,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { ImageProducts, Prev, Next } from './components';
+import { ImageProducts, Prev, Next, AddCart } from './components';
 import WaitLoading from '../WaitLoading';
+import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
 
@@ -16,6 +17,18 @@ const cx = classNames.bind(styles);
 
 function Products({ title, products, handleClickViewMore }) {
     const { list, isLoading, hasError, status } = products;
+    const navigate = useNavigate();
+
+    const [product, setProduct] = useState({});
+    const [show, setShow] = useState(false);
+
+    const handleCloseModal = () => {
+        setShow(false);
+        setProduct({});
+    };
+    const handleShowModal = () => setShow(true);
+
+    // console.log(list);
 
     const swiperRef = useRef();
     const [visible, setVisible] = useState(false);
@@ -34,8 +47,14 @@ function Products({ title, products, handleClickViewMore }) {
         return discountPrice;
     };
 
-    const handleAddCart = () => {
-        console.log('Đã thêm vào giỏ hàng');
+    const goToDetailProduct = (product) => {
+        navigate(`/product-detail/${product.id}`);
+    };
+
+    const handleAddProductToCart = (handleShowModal, product) => {
+        handleShowModal();
+        setProduct(product);
+        console.log('Them vao gio hang');
     };
 
     const params = {
@@ -61,32 +80,47 @@ function Products({ title, products, handleClickViewMore }) {
                         <Swiper {...params}>
                             {list.map((product, index) => {
                                 const { price, discount } = product;
+                                // console.log(product);
                                 return (
-                                    <SwiperSlide key={index}>
-                                        <ImageProducts product={product} />
-                                        <div className={cx('productBox')}>
-                                            <Card.Title
-                                                className={cx('productTitle')}
-                                                title={product.description.toLocaleUpperCase()}
-                                            >
-                                                {product.description.toLocaleUpperCase()}
-                                            </Card.Title>
-                                            <Card.Text className={cx('productDescription')}>
-                                                {product.sumOrder ? `(${product.sumOrder} đã bán)` : `(0 đã bán)`}
-                                            </Card.Text>
-                                            <Card.Text className={cx('productCost')}>
-                                                <span>
-                                                    {handleFomat(handleDiscountPrice(price, discount))}
-                                                    <ins>đ</ins>
-                                                </span>
-                                                <strike>{handleFomat(price)}</strike>
-                                            </Card.Text>
-                                            <button className={cx('btnAddToCard')}>
-                                                <FontAwesomeIcon icon={faPlus} />
-                                                <span onClick={handleAddCart}>Thêm vào giỏ</span>
-                                            </button>
-                                        </div>
-                                    </SwiperSlide>
+                                    <>
+                                        <SwiperSlide
+                                            key={index}
+                                            onClick={() => {
+                                                // goToDetailProduct(product);
+                                            }}
+                                        >
+                                            <ImageProducts product={product} />
+                                            <div className={cx('productBox')}>
+                                                <Card.Title
+                                                    className={cx('productTitle')}
+                                                    title={product.description.toLocaleUpperCase()}
+                                                >
+                                                    {product.description.toLocaleUpperCase()}
+                                                </Card.Title>
+                                                <Card.Text className={cx('productDescription')}>
+                                                    {product.sumOrder ? `(${product.sumOrder} đã bán)` : `(0 đã bán)`}
+                                                </Card.Text>
+                                                <Card.Text className={cx('productCost')}>
+                                                    <span>
+                                                        {handleFomat(handleDiscountPrice(price, discount))}
+                                                        <ins>đ</ins>
+                                                    </span>
+                                                    <strike>{handleFomat(price)}</strike>
+                                                </Card.Text>
+                                                <button className={cx('btnAddToCard')}>
+                                                    <FontAwesomeIcon icon={faPlus} />
+                                                    <span
+                                                        onClick={() => {
+                                                            handleAddProductToCart(handleShowModal, product);
+                                                        }}
+                                                    >
+                                                        Thêm vào giỏ
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            {/* <AddCart show={show} handleClose={handleCloseModal} product={product} /> */}
+                                        </SwiperSlide>
+                                    </>
                                 );
                             })}
                             <Next onClick={handleNext} visible={visible} onMouseOver={handleShow} />
@@ -99,6 +133,8 @@ function Products({ title, products, handleClickViewMore }) {
                         </button>
                     </Row>
                 </div>
+
+                <AddCart show={show} handleClose={handleCloseModal} product={product} />
             </Container>
         );
     };

@@ -15,3 +15,5 @@ export { default as MyBoughtPage } from './MyBoughtPage';
 export { default as MyAddProductPage } from './MyAddProductPage';
 export { default as MyListProductsPage } from './MyListProductsPage';
 export { default as MyZocoinPage } from './MyZocoinPage';
+export { default as ProductDetailPage } from './ProductDetailPage';
+export { default as RegistrationConfirmPage } from './RegistrationConfirmPage';

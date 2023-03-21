@@ -145,6 +145,20 @@ class ProductService {
             console.log(e);
         }
     }
+
+    async getDetailProductPageById(data) {
+        try {
+            const res = await axios.get(API_BASE_URL + `/products/get/${data.id}`, {
+                // params: {
+                //     page: data.page,
+                //     perPage: data.perPage
+                // }
+            });
+            return res.data;
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 export default new ProductService();

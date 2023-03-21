@@ -9,17 +9,25 @@ import 'swiper/css/navigation';
 import { ImageProducts } from '~/components/Products/components';
 import classNames from 'classnames/bind';
 import styles from './SubProducts.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function SubProducts({ products }) {
     const { list } = products;
+    const navigate = useNavigate();
 
     const swiperRef = useRef();
     const [visible, setVisible] = useState(false);
 
+    console.log(list);
+
     // const handleNext = () => swiperRef.current.slideNext();
     // const handlePrev = () => swiperRef.current.slidePrev();
+
+    const goToDetailProduct = (product) => {
+        navigate(`/product-detail/${product.id}`);
+    };
 
     const handleShow = () => setVisible(true);
     const handleHide = () => setVisible(false);
@@ -50,7 +58,13 @@ function SubProducts({ products }) {
                     {list.map((product, index) => {
                         const { price, discount } = product;
                         return (
-                            <Col xs={3} key={index}>
+                            <Col
+                                xs={3}
+                                key={index}
+                                onClick={() => {
+                                    goToDetailProduct(product);
+                                }}
+                            >
                                 <ImageProducts product={product} />
                                 <div className={cx('productBox')}>
                                     <Card.Title

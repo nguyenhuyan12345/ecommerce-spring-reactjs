@@ -53,6 +53,11 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+
+        if (user.getStatus() == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

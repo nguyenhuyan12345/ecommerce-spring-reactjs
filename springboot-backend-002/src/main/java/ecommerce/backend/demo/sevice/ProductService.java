@@ -4,6 +4,7 @@ import ecommerce.backend.demo.entities.*;
 import ecommerce.backend.demo.payload.dto.InventoryDto;
 import ecommerce.backend.demo.payload.dto.ProductColorDto;
 import ecommerce.backend.demo.payload.request.ProductRequest;
+import ecommerce.backend.demo.payload.responce.DetailProductResponse;
 import ecommerce.backend.demo.payload.responce.ProductColorResponse;
 import ecommerce.backend.demo.payload.responce.ProductSaveResponse;
 import ecommerce.backend.demo.payload.responce.ProductResponse;
@@ -46,7 +47,7 @@ public class ProductService {
         products = (List<ProductResponse>) pageAll.getContent();
         for (ProductResponse p : products) {
             Long id = p.getId();
-            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageByProductId(id);
             p.setColorImages(colorImages);
         }
         return products;
@@ -58,7 +59,7 @@ public class ProductService {
         products = (List<ProductResponse>) pageAll.getContent();
         for (ProductResponse p : products) {
             Long id = p.getId();
-            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageByProductId(id);
             p.setColorImages(colorImages);
         }
         return products;
@@ -70,7 +71,7 @@ public class ProductService {
         products = (List<ProductResponse>) pageAll.getContent();
         for (ProductResponse p : products) {
             Long id = p.getId();
-            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageByProductId(id);
             p.setColorImages(colorImages);
         }
         return products;
@@ -82,7 +83,7 @@ public class ProductService {
         products = (List<ProductResponse>) pageAll.getContent();
         for (ProductResponse p : products) {
             Long id = p.getId();
-            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageByProductId(id);
             p.setColorImages(colorImages);
         }
         return products;
@@ -94,15 +95,23 @@ public class ProductService {
         products = (List<ProductResponse>) pageAll.getContent();
         for (ProductResponse p : products) {
             Long id = p.getId();
-            List<ProductColorResponse> colorImages = productColorRepository.findAllImageById(id);
+            List<ProductColorResponse> colorImages = productColorRepository.findAllImageByProductId(id);
             p.setColorImages(colorImages);
         }
         return products;
     }
 
 
-    public Product findByID(Long id) {
-        Product product = productRepository.findById(id).get();
+    public DetailProductResponse findByID(Long id) {
+        DetailProductResponse product = productRepository.findProductById(id);
+
+        List<ProductColorResponse> colorImages = productColorRepository.findAllImageByProductId(id);
+        List<String> gallery = galleryRepository.findAllGalleryByProductId(id);
+        Long inventory = inventoryRepository.getSumInventoryByProductId(id);
+
+        product.setColorImages(colorImages);
+        product.setGallery(gallery);
+        product.setInventory(inventory);
         return product;
     }
 

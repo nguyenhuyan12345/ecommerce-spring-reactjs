@@ -9,6 +9,7 @@ import ecommerce.backend.demo.payload.request.ProductRequest;
 import ecommerce.backend.demo.payload.request.RegisterRequest;
 import ecommerce.backend.demo.payload.responce.LoginResponse;
 import ecommerce.backend.demo.payload.responce.MessageResponse;
+import ecommerce.backend.demo.payload.responce.RegisterConfirmResponse;
 import ecommerce.backend.demo.payload.responce.UserDetailResponse;
 import ecommerce.backend.demo.sevice.UserService;
 import org.springframework.beans.BeanUtils;
@@ -23,10 +24,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.swing.*;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:5050")
@@ -66,10 +69,10 @@ public class UserController {
 
         // Trả về jwt cho người dùng.
         String jwt = tokenProvider.generateToken((CustomUserDetail) authentication.getPrincipal());
-         authentication.getPrincipal();
-         String fullName = ((CustomUserDetail) authentication.getPrincipal()).getUser().getFullName();
-         String avatar = ((CustomUserDetail) authentication.getPrincipal()).getUser().getAvatar();
-         String role = ((CustomUserDetail) authentication.getPrincipal()).getUser().getRole();
+        authentication.getPrincipal();
+        String fullName = ((CustomUserDetail) authentication.getPrincipal()).getUser().getFullName();
+        String avatar = ((CustomUserDetail) authentication.getPrincipal()).getUser().getAvatar();
+        String role = ((CustomUserDetail) authentication.getPrincipal()).getUser().getRole();
 //        System.out.println(jwt);
         return new LoginResponse(jwt, fullName, avatar, role);
     }
@@ -85,26 +88,17 @@ public class UserController {
 
         UserDetailResponse userDetailResponse = new UserDetailResponse();
         BeanUtils.copyProperties(user, userDetailResponse);
-        return  userDetailResponse;
+        return userDetailResponse;
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> registerUser( @RequestBody RegisterRequest registerRequest) {
-
-        RegisterRequest registerRequestEncodePassword = registerRequest;
-        registerRequestEncodePassword.setPassword(encoder.encode(registerRequest.getPassword()));
-
-        // Kiểm tra xem mail đã tồn tại chưa nếu tồn tại trả lại responce
-        if (userService.checkUserName(registerRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
-
-        // Create new User
-        String message = userService.saveUser(registerRequestEncodePassword);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+        registerRequest.setPassword(encoder.encode(registerRequest.getPassword()));
+        return userService.register(registerRequest);
     }
 
+    @GetMapping(value = "/registrationConfirm")
+    public RegisterConfirmResponse registrationConfirm( @RequestParam String token) {
+        return userService.registrationConfirm(token);
+    }
 }

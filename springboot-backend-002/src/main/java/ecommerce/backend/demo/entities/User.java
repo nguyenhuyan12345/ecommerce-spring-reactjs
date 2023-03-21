@@ -52,4 +52,12 @@ public class User {
     @Basic
     @Column(name = "avatar")
     private String avatar;
+
+    @Basic
+    @Column(name = "status")
+    private Integer status;
+
+    @Basic
+    @Column(name = "token")
+    private String token;
 }

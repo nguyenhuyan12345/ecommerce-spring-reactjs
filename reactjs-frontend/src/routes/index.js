@@ -18,7 +18,9 @@ import {
     MyBoughtPage,
     MyAddProductPage,
     MyListProductsPage,
-    MyZocoinPage
+    MyZocoinPage,
+    ProductDetailPage,
+    RegistrationConfirmPage
 } from '~/pages';
 
 // Path
@@ -39,7 +41,9 @@ import {
     MyBought,
     MyAddProduct,
     MyListProducts,
-    MyZocoin
+    MyZocoin,
+    ProductDetail,
+    RegistrationConfirm
 } from '~/constants/routes';
 
 const publicRoutes = [
@@ -59,7 +63,9 @@ const publicRoutes = [
     { path: MyBought, component: MyBoughtPage, layout: SubLayout2 },
     { path: MyAddProduct, component: MyAddProductPage, layout: SubLayout2 },
     { path: MyListProducts, component: MyListProductsPage, layout: SubLayout2 },
-    { path: MyZocoin, component: MyZocoinPage, layout: SubLayout2 }
+    { path: MyZocoin, component: MyZocoinPage, layout: SubLayout2 },
+    { path: ProductDetail, component: ProductDetailPage, layout: SubLayout2 },
+    { path: RegistrationConfirm, component: RegistrationConfirmPage, layout: SubLayout2 }
 ];
 
 const privateRoutes = [];

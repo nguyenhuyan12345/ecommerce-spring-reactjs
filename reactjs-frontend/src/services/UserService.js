@@ -61,6 +61,32 @@ class UserService {
             console.log(e);
         }
     }
+
+    async getUserDetail(accessToken, tokenType) {
+        try {
+            const res = await axios.get(API_BASE_URL + '/user/detail', {
+                headers: {
+                    Authorization: tokenType + ' ' + accessToken
+                }
+            });
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async registrationConfirm(token) {
+        try {
+            const res = await axios.get(API_BASE_URL + '/registrationConfirm', {
+                params: {
+                    token: token
+                }
+            });
+            return res;
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 export default new UserService();

@@ -32,6 +32,7 @@ const LoginPage = () => {
     const handlelogin = (values) => {
         UserService.login(values)
             .then((res) => {
+                console.log(res);
                 const payload = {
                     accessToken: res.data.accessToken,
                     tokenType: res.data.tokenType,

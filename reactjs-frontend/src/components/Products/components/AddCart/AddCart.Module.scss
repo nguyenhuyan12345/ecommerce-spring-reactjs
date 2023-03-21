@@ -1,0 +1,48 @@
+.addCartContainer {
+    .addCartItem {
+        .addCartItemContainer {
+            display: flex;
+            flex-flow: column nowrap;
+
+            .addCartItemLabel {
+                font-size: 1.4rem;
+            }
+
+            .addCartItemInput {
+                border: 1px solid #666;
+            }
+
+            .addCartItemInputIcon {
+                font-size: 2rem;
+            }
+
+            .addCartItemNumber {
+                font-size: 1.4rem;
+                margin: 0 8px;
+            }
+        }
+
+        .addCartItemList {
+            display: flex;
+            flex-flow: row nowrap;
+
+            .addCartSubItem {
+                .addCartSubItemImage {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    border: 1px solid #666;
+                    margin-right: 8px;
+
+                    &:hover {
+                        border: 1px solid red;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.active {
+    border: 1px solid red;
+}

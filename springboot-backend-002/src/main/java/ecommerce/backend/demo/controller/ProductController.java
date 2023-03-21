@@ -3,6 +3,7 @@ package ecommerce.backend.demo.controller;
 import ecommerce.backend.demo.SecurityConfigure.jwt.JwtTokenProvider;
 import ecommerce.backend.demo.entities.Product;
 import ecommerce.backend.demo.payload.request.ProductRequest;
+import ecommerce.backend.demo.payload.responce.DetailProductResponse;
 import ecommerce.backend.demo.payload.responce.MessageResponse;
 import ecommerce.backend.demo.payload.responce.ProductResponse;
 import ecommerce.backend.demo.sevice.ProductService;
@@ -54,7 +55,7 @@ public class ProductController {
 
 
     @GetMapping("/get/{id}")
-    public Product getProduct(@PathVariable Long id) {
+    public DetailProductResponse getProductById(@PathVariable Long id) {
         return productService.findByID(id);
     }
 
