@@ -125,12 +125,7 @@ const LoginPage = () => {
                             <strong>Don&apos;t have an account?</strong>
                         </span>
                         <Link to={RegisterPath}>
-                            <button
-                                className={`button buttonSmall signUpButton`}
-                                //disabled={isAuthenticating}
-                                //onClick={onSignUp}
-                                type="button"
-                            >
+                            <button className={`button buttonSmall signUpButton`} type="button">
                                 Sign Up
                             </button>
                         </Link>

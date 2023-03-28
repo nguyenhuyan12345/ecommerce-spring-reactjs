@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartRequest {
     private Long id;
-    private Integer productId;
-    private Integer num;
+    private Integer productID;
+    private Integer numberProduct;
+    private String color;
     private Integer userId;
 }

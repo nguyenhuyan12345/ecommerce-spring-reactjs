@@ -3,7 +3,10 @@ import { API_RESOURCES_URL } from '~/constants/api';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Field, Form, Formik } from 'formik';
+import { Formik } from 'formik';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import CartService from '~/services/CartService';
 import * as yup from 'yup';
 import classNames from 'classnames/bind';
 import styles from './AddCart.Module.scss';
@@ -17,18 +20,18 @@ const schema = yup.object({
 
 const AddCart = ({ show, handleClose, product }) => {
     const { colorImages, discount, id, price } = product;
-    // console.log(product);
-    const [activeId, setAtiveId] = useState(1);
-    const [num, setNum] = useState(0);
+    const [activeId, setAtiveId] = useState();
+    const [num, setNum] = useState();
+    const navigator = useNavigate();
+
+    //Redux state
+    const auth = useSelector((state) => state.auth);
+    const { accessToken, tokenType } = auth;
 
     const handleAddNum = (setFieldValue, values) => {
-        // setNum(num + 1);
-        // console.log(num);
-        console.log('Before', values.numberProduct);
         let num = values.numberProduct;
         num = num + 1;
         setFieldValue('numberProduct', num);
-        console.log('After', values.numberProduct);
     };
 
     const handleRemoveNum = (setFieldValue) => {
@@ -41,16 +44,32 @@ const AddCart = ({ show, handleClose, product }) => {
         }
     };
 
-    useEffect(() => {});
+    const handleAddCart = (values, accessToken, tokenType) => {
+        if (!accessToken) {
+            alert('Bạn chưa đăng nhập');
+            navigator('/login');
+        } else {
+            console.log(values, accessToken, tokenType);
+            CartService.addCart(values, accessToken, tokenType)
+                .then((res) => {
+                    return res.data;
+                })
+                .then((data) => {
+                    alert(data.message);
+                    handleClose();
+                });
+        }
+    };
 
     return (
         <>
             <Formik
                 initialValues={{
-                    numberProduct: 0,
+                    numberProduct: 1,
                     productID: '',
                     color: ''
                 }}
+                validateOnChange
                 validationSchema={schema}
             >
                 {({ handleSubmit, handleChange, handleBlur, values, touched, isValid, errors, setFieldValue }) => {
@@ -60,7 +79,7 @@ const AddCart = ({ show, handleClose, product }) => {
                                 <Modal.Title>Thêm rỏ hàng</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <form className={`${cx('addCartContainer')}`}>
+                                <form className={`${cx('addCartContainer')}`} onSubmit={handleSubmit}>
                                     <div className={`${cx('addCartItem')}`}>
                                         <div className={`${cx('addCartItemContainer')}`}>
                                             <label className={`${cx('addCartItemLabel')}`}>Chọn số lượng</label>
@@ -97,14 +116,24 @@ const AddCart = ({ show, handleClose, product }) => {
                                                               key={index}
                                                           >
                                                               <img
-                                                                  className={`${cx('addCartSubItemImage')}`}
+                                                                  className={`${cx('addCartSubItemImage', {
+                                                                      ['active']: index === activeId
+                                                                  })}`}
                                                                   src={API_RESOURCES_URL + '/' + color.colorImage}
+                                                                  onClick={() => {
+                                                                      setAtiveId(index);
+                                                                      setFieldValue('color', color.coloName);
+                                                                      setFieldValue('productID', product.id);
+                                                                  }}
+                                                                  //   onChange={handleChange}
+                                                                  //   onBlur={handleBlur}
                                                               />
                                                           </li>
                                                       );
                                                   })
                                                 : undefined}
                                         </ul>
+                                        {/* {errors.color ? <div>Bạn chưa chọn màu</div> : undefined} */}
                                     </div>
                                 </form>
                             </Modal.Body>
@@ -114,8 +143,9 @@ const AddCart = ({ show, handleClose, product }) => {
                                 </Button>
                                 <Button
                                     variant="primary"
+                                    type="submit"
                                     onClick={() => {
-                                        console.log(values);
+                                        handleAddCart(values, accessToken, tokenType);
                                     }}
                                 >
                                     Thêm vào rỏ hàng

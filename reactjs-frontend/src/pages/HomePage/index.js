@@ -17,7 +17,6 @@ function HomePage() {
     const topCoatProducts = useSelector((state) => state.topCoats);
 
     const dispatch = useDispatch();
-
     // Side effect
     useEffect(() => {
         // dispatch actionn getProduct call API

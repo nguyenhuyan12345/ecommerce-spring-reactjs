@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class CartService {
@@ -35,4 +36,14 @@ public class CartService {
             return new AddCartResponse("Thêm giỏ hàng không thành công", false);
         }
     }
+
+    public List<Cart> getCart (Integer userId) {
+        try {
+            return cartRepository.findAllByUserId(userId);
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
 }

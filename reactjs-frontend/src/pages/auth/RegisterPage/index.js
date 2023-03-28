@@ -96,7 +96,7 @@ const RegisterPage = () => {
                                     setFieldValue
                                 }) => {
                                     return (
-                                        <Form noValidate onSubmit={handleSubmit} encType="multipart/form-data">
+                                        <Form noValidate onSubmit={handleSubmit}>
                                             <Row>
                                                 {/* fullName */}
                                                 <Col className="mb-3">

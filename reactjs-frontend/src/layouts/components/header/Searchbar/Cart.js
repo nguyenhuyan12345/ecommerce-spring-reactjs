@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { Offcanvas } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import CartService from '~/services/CartService';
 
 import classNames from 'classnames/bind';
 import styles from './Searchbar.module.scss';
+import { data } from 'jquery';
 
 const cx = classNames.bind(styles);
 
@@ -23,12 +25,31 @@ const CartSideBar = ({ param }) => {
 };
 
 const Cart = () => {
+    const [cart, setCart] = useState({});
+    const [num, setNum] = useState(0);
+    //Redux state
+    const auth = useSelector((state) => state.auth);
+    const { accessToken, tokenType } = auth;
+    const dispatch = useDispatch();
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const param = { show, setShow, handleClose, handleShow };
+
+    useEffect(() => {
+        CartService.getCart(accessToken, tokenType)
+            .then((res) => {
+                return res.data;
+            })
+            .then((data) => {
+                setCart(data);
+                setNum(data.length);
+                console.log(num);
+            });
+    }, [dispatch]);
 
     return (
         <>

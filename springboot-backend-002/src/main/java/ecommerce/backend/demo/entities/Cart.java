@@ -18,10 +18,10 @@ public class Cart {
     private Long id;
     @Basic
     @Column(name = "product_id")
-    private Integer productId;
+    private Integer productID;
     @Basic
     @Column(name = "num")
-    private Integer num;
+    private Integer numberProduct;
     @Basic
     @Column(name = "user_id")
     private Integer userId;
@@ -31,4 +31,7 @@ public class Cart {
     @Basic
     @Column(name = "update_at")
     private Timestamp updateAt;
+    @Basic
+    @Column(name = "color")
+    private String color;
 }
